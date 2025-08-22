@@ -7,8 +7,8 @@ class Product {
         
         return new Promise((resolve, reject) => {
             const sql = `
-                INSERT INTO products (name, description, price, category_id, stock, image_url)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO products (name, description, price, category_id, image_url)
+                VALUES (?, ?, ?, ?, ?)
             `;
             
             database.getDB().run(
@@ -18,7 +18,6 @@ class Product {
                     productData.description || null,
                     productData.price,
                     productData.category_id,
-                    productData.stock || 0,
                     productData.image_url || null
                 ],
                 function(err) {
@@ -92,7 +91,7 @@ class Product {
             const sql = `
                 UPDATE products 
                 SET name = ?, description = ?, price = ?, category_id = ?, 
-                    stock = ?, image_url = ?, updated_at = CURRENT_TIMESTAMP
+                    image_url = ?, updated_at = CURRENT_TIMESTAMP
                 WHERE id = ?
             `;
             
@@ -103,7 +102,6 @@ class Product {
                     productData.description,
                     productData.price,
                     productData.category_id,
-                    productData.stock,
                     productData.image_url,
                     id
                 ],
@@ -124,23 +122,6 @@ class Product {
             database.getDB().run(sql, [id], function(err) {
                 if (err) reject(err);
                 else resolve({ deleted: true });
-            });
-        });
-    }
-
-    static async updateStock(id, newStock) {
-        await database.ensureConnected();
-        
-        return new Promise((resolve, reject) => {
-            const sql = `
-                UPDATE products 
-                SET stock = ?, updated_at = CURRENT_TIMESTAMP 
-                WHERE id = ?
-            `;
-            
-            database.getDB().run(sql, [newStock, id], function(err) {
-                if (err) reject(err);
-                else resolve({ updated: true, new_stock: newStock });
             });
         });
     }
@@ -170,61 +151,6 @@ class Product {
         });
     }
 
-    static async findLowStock(threshold = 10) {
-        await database.ensureConnected();
-        
-        return new Promise((resolve, reject) => {
-            const sql = `
-                SELECT p.*, c.name as category_name 
-                FROM products p
-                LEFT JOIN categories c ON p.category_id = c.id
-                WHERE p.active = 1 AND p.stock <= ?
-                ORDER BY p.stock ASC, p.name
-            `;
-            
-            database.getDB().all(sql, [threshold], (err, rows) => {
-                if (err) reject(err);
-                else resolve(rows);
-            });
-        });
-    }
-
-    static async updateStockBatch(stockUpdates) {
-        await database.ensureConnected();
-        
-        return new Promise((resolve, reject) => {
-            const db = database.getDB();
-            
-            db.serialize(() => {
-                db.run('BEGIN TRANSACTION');
-                
-                const sql = `UPDATE products SET stock = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`;
-                const stmt = db.prepare(sql);
-                
-                let completed = 0;
-                let hasError = false;
-                
-                stockUpdates.forEach(({ id, stock }) => {
-                    stmt.run([stock, id], function(err) {
-                        if (err && !hasError) {
-                            hasError = true;
-                            db.run('ROLLBACK');
-                            reject(err);
-                            return;
-                        }
-                        
-                        completed++;
-                        if (completed === stockUpdates.length && !hasError) {
-                            db.run('COMMIT');
-                            resolve({ updated: stockUpdates.length });
-                        }
-                    });
-                });
-                
-                stmt.finalize();
-            });
-        });
-    }
 }
 
 module.exports = Product;

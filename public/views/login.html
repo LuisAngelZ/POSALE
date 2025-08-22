@@ -1,9 +1,9 @@
-// Manejo del formul<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS - Sistema de Ventas</title>
+    <title>Sistema POS - Iniciar Sesión</title>
     <style>
         * {
             margin: 0;
@@ -12,199 +12,550 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            padding: 1rem;
         }
 
         .login-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 300% 100%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
         }
 
         .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo h1 {
-            color: #333;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            margin: 0 auto 1rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            animation: logoFloat 3s ease-in-out infinite;
         }
 
-        .logo p {
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .logo-text h1 {
+            color: #333;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text p {
             color: #666;
             font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
         }
 
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
-        label {
+        .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             color: #333;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 0.95rem;
         }
 
-        input[type="text"],
-        input[type="password"] {
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2rem;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .form-input {
             width: 100%;
-            padding: 1rem;
-            border: 2px solid #e1e1e1;
-            border-radius: 5px;
+            padding: 1.2rem 1.2rem 1.2rem 3.2rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 16px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
         }
 
-        input[type="text"]:focus,
-        input[type="password"]:focus {
+        .form-input:focus {
             outline: none;
             border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .form-input:focus + .input-icon {
+            color: #5a6fd8;
+            transform: translateY(-50%) scale(1.1);
         }
 
         .login-btn {
             width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.3rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 16px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
         }
 
         .login-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
         }
 
         .login-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
-        .status-message {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 5px;
-            text-align: center;
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
             display: none;
         }
 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-message {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .status-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
         }
 
         .status-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            color: white;
         }
 
-        .test-server {
+        .demo-credentials {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 16px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .demo-credentials h3 {
+            color: #667eea;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #e1e5e9;
+        }
+
+        .credential-item:hover {
+            background: #f8f9ff;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .credential-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .credential-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .credential-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .admin-avatar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .cajero-avatar {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .credential-details h4 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .credential-details p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .credential-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-admin {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .badge-cajero {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .footer-info {
+            margin-top: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .version {
             margin-top: 1rem;
             text-align: center;
+            color: #999;
+            font-size: 0.8rem;
         }
 
-        .test-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 2rem;
+                margin: 1rem;
+                border-radius: 20px;
+            }
 
-        .server-status {
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .logo-text h1 {
+                font-size: 1.8rem;
+            }
+
+            .credential-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="logo">
-            <h1>🏪 POS</h1>
-            <p>Sistema de Punto de Venta</p>
+        <!-- Logo y Título -->
+        <div class="logo-section">
+            <div class="logo">🏪</div>
+            <div class="logo-text">
+                <h1>Sistema POS</h1>
+                <p>Punto de Venta Profesional</p>
+            </div>
         </div>
 
-        <form id="loginForm">
+        <!-- Formulario de Login -->
+        <form id="loginForm" class="form-section">
             <div class="form-group">
                 <label for="username">Usuario:</label>
-                <input type="text" id="username" name="username" required>
+                <div class="input-wrapper">
+                    <input type="text" id="username" name="username" class="form-input" placeholder="Ingrese su usuario" required>
+                    <span class="input-icon">👤</span>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" required>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" class="form-input" placeholder="Ingrese su contraseña" required>
+                    <span class="input-icon">🔐</span>
+                </div>
             </div>
 
-            <button type="submit" class="login-btn">Iniciar Sesión</button>
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="loading-spinner" id="loadingSpinner"></span>
+                <span id="loginBtnText">Iniciar Sesión</span>
+            </button>
         </form>
 
+        <!-- Mensaje de Estado -->
         <div class="status-message" id="statusMessage"></div>
 
-        <div class="test-server">
-            <button class="test-btn" onclick="testServer()">🧪 Probar Servidor</button>
-            <div class="server-status" id="serverStatus"></div>
+        <!-- Credenciales de Demostración -->
+        <div class="demo-credentials">
+            <h3>🔑 Usuarios de Demostración</h3>
+            
+            <div class="credential-item" onclick="fillCredentials('admin', '123456')">
+                <div class="credential-info">
+                    <div class="credential-avatar admin-avatar">👨‍💼</div>
+                    <div class="credential-details">
+                        <h4>Administrador</h4>
+                        <p>Acceso completo al sistema</p>
+                    </div>
+                </div>
+                <span class="credential-badge badge-admin">ADMIN</span>
+            </div>
+
+            <div class="credential-item" onclick="fillCredentials('cajero', '123456')">
+                <div class="credential-info">
+                    <div class="credential-avatar cajero-avatar">👨‍💻</div>
+                    <div class="credential-details">
+                        <h4>Cajero</h4>
+                        <p>Solo punto de venta</p>
+                    </div>
+                </div>
+                <span class="credential-badge badge-cajero">CAJERO</span>
+            </div>
+        </div>
+
+        <!-- Información del Footer -->
+        <div class="footer-info">
+            <span>🔒</span>
+            <p>Sesión segura con autenticación JWT</p>
+        </div>
+
+        <div class="version">
+            <p>v2.1 - Sistema POS con Control de Roles</p>
         </div>
     </div>
 
     <script>
-        // Función para probar que el servidor está funcionando
-        async function testServer() {
-            const statusDiv = document.getElementById('serverStatus');
+        // Variables globales
+        const API_BASE = '/api';
+
+        // Verificar si ya está logueado
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('pos_token');
+            if (token) {
+                verifyExistingToken(token);
+            }
             
-            try {
-                const response = await fetch('/api/test');
-                const data = await response.json();
+            setupFormHandlers();
+        });
+
+        // Configurar manejadores del formulario
+        function setupFormHandlers() {
+            const form = document.getElementById('loginForm');
+            const inputs = document.querySelectorAll('.form-input');
+            
+            // Efectos visuales para inputs
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.closest('.input-wrapper').style.transform = 'scale(1.02)';
+                });
                 
+                input.addEventListener('blur', function() {
+                    this.closest('.input-wrapper').style.transform = 'scale(1)';
+                });
+            });
+
+            // Manejo del formulario
+            form.addEventListener('submit', handleLogin);
+        }
+
+        // Verificar token existente
+        async function verifyExistingToken(token) {
+            try {
+                const response = await fetch(`${API_BASE}/auth/verify-token`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
                 if (response.ok) {
-                    statusDiv.innerHTML = `
-                        <span style="color: #28a745;">✅ Servidor funcionando</span><br>
-                        <small>${data.message}</small>
-                    `;
+                    const data = await response.json();
+                    redirectByRole(data.user);
                 } else {
-                    throw new Error('Servidor no responde correctamente');
+                    localStorage.removeItem('pos_token');
+                    localStorage.removeItem('pos_user');
                 }
             } catch (error) {
-                statusDiv.innerHTML = `
-                    <span style="color: #dc3545;">❌ Error de conexión</span><br>
-                    <small>${error.message}</small>
-                `;
+                console.log('Token inválido o expirado');
+                localStorage.removeItem('pos_token');
+                localStorage.removeItem('pos_user');
             }
         }
 
-        // Manejo del formulario de login
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        // Llenar credenciales de demostración
+        function fillCredentials(username, password) {
+            document.getElementById('username').value = username;
+            document.getElementById('password').value = password;
+            
+            // Feedback visual
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.style.borderColor = '#10b981';
+                input.style.background = '#f0fdf4';
+                setTimeout(() => {
+                    input.style.borderColor = '';
+                    input.style.background = '';
+                }, 1500);
+            });
+        }
+
+        // Manejar login
+        async function handleLogin(e) {
             e.preventDefault();
             
-            const username = document.getElementById('username').value;
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
-            const statusMessage = document.getElementById('statusMessage');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginBtnText = document.getElementById('loginBtnText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
             
+            // Validación básica
             if (!username || !password) {
-                statusMessage.className = 'status-message status-error';
-                statusMessage.style.display = 'block';
-                statusMessage.textContent = 'Por favor complete todos los campos';
+                showMessage('Por favor complete todos los campos', 'error');
                 return;
             }
 
             try {
-                const response = await fetch('/api/auth/login', {
+                // Mostrar loading
+                loginBtn.disabled = true;
+                loadingSpinner.style.display = 'inline-block';
+                loginBtnText.textContent = 'Verificando...';
+                
+                const response = await fetch(`${API_BASE}/auth/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -215,33 +566,72 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Guardar token
+                    // Guardar datos de sesión
                     localStorage.setItem('pos_token', data.token);
+                    localStorage.setItem('pos_user', JSON.stringify(data.user));
                     
-                    statusMessage.className = 'status-message status-success';
-                    statusMessage.style.display = 'block';
-                    statusMessage.textContent = '¡Login exitoso! Redirigiendo...';
+                    showMessage(`¡Bienvenido, ${data.user.full_name}!`, 'success');
                     
-                    // Redirigir al POS
+                    // Redirigir según el rol
                     setTimeout(() => {
-                        window.location.href = '/pos.html';
+                        redirectByRole(data.user);
                     }, 1000);
+                    
                 } else {
-                    statusMessage.className = 'status-message status-error';
-                    statusMessage.style.display = 'block';
-                    statusMessage.textContent = data.message || 'Error en el login';
+                    throw new Error(data.message || 'Error en el login');
                 }
+                
             } catch (error) {
-                statusMessage.className = 'status-message status-error';
-                statusMessage.style.display = 'block';
-                statusMessage.textContent = 'Error de conexión con el servidor';
+                console.error('Error en login:', error);
+                showMessage(error.message || 'Error de conexión con el servidor', 'error');
+            } finally {
+                // Restaurar botón
+                loginBtn.disabled = false;
+                loadingSpinner.style.display = 'none';
+                loginBtnText.textContent = 'Iniciar Sesión';
+            }
+        }
+
+        // Redirigir según el rol del usuario
+        function redirectByRole(user) {
+            // Todos los usuarios van al dashboard
+            showMessage(`Accediendo como ${user.role === 'admin' ? 'Administrador' : 'Cajero'}...`, 'success');
+            setTimeout(() => {
+                window.location.href = '/dashboard.html';
+            }, 1000);
+        }
+
+        // Mostrar mensajes de estado
+        function showMessage(message, type = 'success') {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.className = `status-message status-${type}`;
+            statusMessage.style.display = 'block';
+            statusMessage.textContent = message;
+            
+            // Auto-ocultar después de 5 segundos para mensajes de error
+            if (type === 'error') {
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Atajos de teclado
+        document.addEventListener('keydown', function(e) {
+            // Enter para enviar formulario
+            if (e.key === 'Enter' && !e.shiftKey) {
+                const form = document.getElementById('loginForm');
+                if (document.activeElement.tagName === 'INPUT') {
+                    e.preventDefault();
+                    form.dispatchEvent(new Event('submit'));
+                }
             }
         });
 
-        // Probar servidor automáticamente al cargar
-        window.onload = function() {
-            testServer();
-        };
+        // Auto-focus en campo de usuario
+        setTimeout(() => {
+            document.getElementById('username').focus();
+        }, 500);
     </script>
 </body>
 </html>

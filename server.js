@@ -53,6 +53,10 @@ app.get('/pos.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/views/pos.html'));
 });
 
+app.get('/admin.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/views/admin.html'));
+});
+
 app.get('/dashboard.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/views/dashboard.html'));
 });

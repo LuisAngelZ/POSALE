@@ -242,46 +242,6 @@ class ProductController {
         }
     }
 
-    // Actualizar stock de producto
-    static async updateStock(req, res) {
-        try {
-            const { id } = req.params;
-            const { stock } = req.body;
-
-            // Verificar que el producto existe
-            const existingProduct = await Product.findById(id);
-            if (!existingProduct) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'Producto no encontrado'
-                });
-            }
-
-            // Validar stock
-            if (isNaN(stock) || stock < 0) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'El stock debe ser un número mayor o igual a 0'
-                });
-            }
-
-            await Product.updateStock(id, parseInt(stock));
-
-            res.json({
-                success: true,
-                message: 'Stock actualizado exitosamente',
-                new_stock: parseInt(stock)
-            });
-
-        } catch (error) {
-            console.error('Error actualizando stock:', error);
-            res.status(500).json({
-                success: false,
-                message: 'Error interno del servidor'
-            });
-        }
-    }
-
     // Búsqueda de productos
     static async search(req, res) {
         try {
@@ -313,32 +273,6 @@ class ProductController {
 
         } catch (error) {
             console.error('Error en búsqueda de productos:', error);
-            res.status(500).json({
-                success: false,
-                message: 'Error interno del servidor'
-            });
-        }
-    }
-
-    // Obtener productos con stock bajo
-    static async getLowStock(req, res) {
-        try {
-            const { threshold = 10 } = req.query;
-            
-            const allProducts = await Product.findAll();
-            const lowStockProducts = allProducts.filter(product => 
-                product.stock <= parseInt(threshold)
-            );
-
-            res.json({
-                success: true,
-                threshold: parseInt(threshold),
-                low_stock_count: lowStockProducts.length,
-                products: lowStockProducts
-            });
-
-        } catch (error) {
-            console.error('Error obteniendo productos con stock bajo:', error);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'

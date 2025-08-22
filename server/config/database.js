@@ -98,7 +98,6 @@ class Database {
                 description TEXT,
                 price DECIMAL(10,2) NOT NULL,
                 category_id INTEGER,
-                stock INTEGER DEFAULT 0,
                 image_url VARCHAR(255),
                 active BOOLEAN DEFAULT 1,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -107,7 +106,7 @@ class Database {
             )
         `;
         await this.runAsync(sql);
-        console.log('✅ Tabla products creada');
+        console.log('✅ Tabla products creada (sin stock)');
     }
 
     async createSalesTable() {

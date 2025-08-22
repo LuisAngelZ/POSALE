@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Producto - Sistema POS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-label.required::after {
+            content: ' *';
+            color: #ef4444;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input:invalid {
+            border-color: #ef4444;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            appearance: none;
+        }
+
+        .input-helper {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .price-input-wrapper {
+            position: relative;
+        }
+
+        .price-symbol {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .price-input {
+            padding-left: 2rem;
+        }
+
+        .image-preview {
+            width: 100%;
+            max-width: 200px;
+            height: 150px;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            background: #f9fafb;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-placeholder {
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .image-placeholder .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .loading-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #10b981;
+        }
+
+        .notification.error {
+            background: #ef4444;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .category-option {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: white;
+        }
+
+        .category-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .category-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .category-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .category-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .quick-actions {
+            background: #f8f9ff;
+            border: 1px solid #e0e7ff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .quick-actions-title {
+            font-weight: 600;
+            color: #3730a3;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .quick-action-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: #5a6fd8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📦 Crear Nuevo Producto</h1>
+            <p>Agrega un nuevo producto al inventario del sistema</p>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="/dashboard.html">Dashboard</a>
+            <span>›</span>
+            <a href="#" onclick="showSection('products')">Productos</a>
+            <span>›</span>
+            <span>Crear Producto</span>
+        </div>
+
+        <!-- Formulario -->
+        <div class="form-card">
+            <form id="productForm">
+                <!-- Información Básica -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <span>📝</span>
+                        Información Básica
+                    </h3>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="productName" class="form-label required">Nombre del Producto</label>
+                            <input type="text" id="productName" name="name" class="form-input" 
+                                   placeholder="Ej: Pizza Margherita" required maxlength="100">
+                            <div class="input-helper">Máximo 100 caracteres</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productPrice" class="form-label required">Precio</label>
+                            <div class="price-input-wrapper">
+                                <span class="price-symbol">$</span>
+                                <input type="number" id="productPrice" name="price" class="form-input price-input" 
+                                       placeholder="0.00" step="0.01" min="0" required>
+                            </div>
+                            <div class="input-helper">Precio en bolivianos (Bs.)</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="productDescription" class="form-label">Descripción</label>
+                        <textarea id="productDescription" name="description" class="form-input form-textarea" 
+                                  placeholder="Descripción detallada del producto..." maxlength="500"></textarea>
+                        <div class="input-helper">Opcional - Máximo 500 caracteres</div>
+                    </div>
+                </div>
+
+                <!-- Categoría -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <span>🏷️</span>
+                        Categoría
+                    </h3>
+                    
+                    <input type="hidden" id="selectedCategoryId" name="category_id" required>
+                    
+                    <div class="category-grid" id="categoryGrid">
+                        <!-- Las categorías se cargan dinámicamente -->
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #6b7280;">
+                            Cargando categorías...
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <div class="quick-actions-title">⚡ Acciones Rápidas</div>
+                        <button type="button" class="quick-action-btn" onclick="createNewCategory()">
+                            ➕ Nueva Categoría
+                        </button>
+                        <button type="button" class="quick-action-btn" onclick="refreshCategories()">
+                            🔄 Actualizar Lista
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Imagen (Opcional) -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <span>🖼️</span>
+                        Imagen del Producto
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="productImage" class="form-label">URL de la Imagen</label>
+                        <input type="url" id="productImage" name="image_url" class="form-input" 
+                               placeholder="https://ejemplo.com/imagen.jpg">
+                        <div class="input-helper">Opcional - URL de una imagen del producto</div>
+                    </div>
+
+                    <div class="image-preview" id="imagePreview">
+                        <div class="image-placeholder">
+                            <span class="icon">🖼️</span>
+                            <div>Vista previa de la imagen</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="cancelForm()">
+                        <span>❌</span>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span>💾</span>
+                        Crear Producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let authToken = localStorage.getItem('pos_token');
+        let categories = [];
+        let selectedCategoryId = null;
+        const API_BASE = '/api';
+
+        // Verificar autenticación
+        if (!authToken) {
+            window.location.href = '/login.html';
+        }
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            setupFormHandlers();
+            loadCategories();
+        });
+
+        // Configurar manejadores del formulario
+        function setupFormHandlers() {
+            const form = document.getElementById('productForm');
+            const imageInput = document.getElementById('productImage');
+            
+            // Manejar envío del formulario
+            form.addEventListener('submit', handleSubmit);
+            
+            // Preview de imagen
+            imageInput.addEventListener('input', updateImagePreview);
+            
+            // Validaciones en tiempo real
+            setupValidation();
+        }
+
+        // Cargar categorías
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${API_BASE}/categories`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    categories = data.categories;
+                    renderCategories();
+                } else {
+                    throw new Error('Error cargando categorías');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error cargando categorías', 'error');
+            }
+        }
+
+        // Renderizar categorías
+        function renderCategories() {
+            const categoryGrid = document.getElementById('categoryGrid');
+            
+            if (categories.length === 0) {
+                categoryGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #6b7280;">
+                        No hay categorías disponibles. 
+                        <button type="button" class="quick-action-btn" onclick="createNewCategory()" style="margin-left: 0.5rem;">
+                            Crear Primera Categoría
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            categoryGrid.innerHTML = categories.map(category => `
+                <div class="category-option" onclick="selectCategory(${category.id}, '${category.name}')">
+                    <div class="category-name">${category.name}</div>
+                    <div class="category-desc">${category.description || 'Sin descripción'}</div>
+                </div>
+            `).join('');
+        }
+
+        // Seleccionar categoría
+        function selectCategory(categoryId, categoryName) {
+            // Remover selección anterior
+            document.querySelectorAll('.category-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Seleccionar nueva categoría
+            event.target.closest('.category-option').classList.add('selected');
+            
+            selectedCategoryId = categoryId;
+            document.getElementById('selectedCategoryId').value = categoryId;
+            
+            console.log(`Categoría seleccionada: ${categoryName} (ID: ${categoryId})`);
+        }
+
+        // Actualizar preview de imagen
+        function updateImagePreview() {
+            const imageUrl = document.getElementById('productImage').value;
+            const preview = document.getElementById('imagePreview');
+            
+            if (imageUrl) {
+                preview.innerHTML = `<img src="${imageUrl}" alt="Preview" onerror="showImageError()">`;
+            } else {
+                preview.innerHTML = `
+                    <div class="image-placeholder">
+                        <span class="icon">🖼️</span>
+                        <div>Vista previa de la imagen</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Error en imagen
+        function showImageError() {
+            document.getElementById('imagePreview').innerHTML = `
+                <div class="image-placeholder">
+                    <span class="icon">❌</span>
+                    <div>Error cargando imagen</div>
+                </div>
+            `;
+        }
+
+        // Configurar validaciones
+        function setupValidation() {
+            const nameInput = document.getElementById('productName');
+            const priceInput = document.getElementById('productPrice');
+            
+            nameInput.addEventListener('input', function() {
+                const value = this.value.trim();
+                if (value.length > 100) {
+                    this.setCustomValidity('El nombre no puede exceder 100 caracteres');
+                } else if (value.length === 0) {
+                    this.setCustomValidity('El nombre es requerido');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+
+            priceInput.addEventListener('input', function() {
+                const value = parseFloat(this.value);
+                if (isNaN(value) || value <= 0) {
+                    this.setCustomValidity('El precio debe ser mayor a 0');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+        }
+
+        // Manejar envío del formulario
+        async function handleSubmit(e) {
+            e.preventDefault();
+            
+            // Validar categoría seleccionada
+            if (!selectedCategoryId) {
+                showNotification('Por favor selecciona una categoría', 'error');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const formData = new FormData(e.target);
+            
+            const productData = {
+                name: formData.get('name').trim(),
+                description: formData.get('description')?.trim() || null,
+                price: parseFloat(formData.get('price')),
+                category_id: parseInt(selectedCategoryId),
+                image_url: formData.get('image_url')?.trim() || null
+            };
+
+            try {
+                // Mostrar loading
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="loading-spinner"></span> Creando...';
+                
+                const response = await fetch(`${API_BASE}/products`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showNotification('¡Producto creado exitosamente!', 'success');
+                    
+                    // Limpiar formulario después de 2 segundos
+                    setTimeout(() => {
+                        resetForm();
+                    }, 2000);
+                    
+                } else {
+                    throw new Error(result.message || 'Error creando producto');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification(error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>💾</span> Crear Producto';
+            }
+        }
+
+        // Limpiar formulario
+        function resetForm() {
+            document.getElementById('productForm').reset();
+            selectedCategoryId = null;
+            document.getElementById('selectedCategoryId').value = '';
+            
+            // Remover selecciones de categoría
+            document.querySelectorAll('.category-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Resetear preview de imagen
+            updateImagePreview();
+        }
+
+        // Cancelar formulario
+        function cancelForm() {
+            if (confirm('¿Estás seguro? Se perderán todos los datos ingresados.')) {
+                window.history.back();
+            }
+        }
+
+        // Crear nueva categoría
+        function createNewCategory() {
+            const categoryName = prompt('Nombre de la nueva categoría:');
+            if (!categoryName || categoryName.trim() === '') return;
+            
+            const categoryDesc = prompt('Descripción (opcional):');
+            
+            createCategory(categoryName.trim(), categoryDesc?.trim());
+        }
+
+        // API para crear categoría
+        async function createCategory(name, description) {
+            try {
+                const response = await fetch(`${API_BASE}/categories`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, description })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showNotification('Categoría creada exitosamente', 'success');
+                    await loadCategories(); // Recargar categorías
+                } else {
+                    throw new Error(result.message || 'Error creando categoría');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification(error.message, 'error');
+            }
+        }
+
+        // Actualizar categorías
+        function refreshCategories() {
+            loadCategories();
+        }
+
+        // Mostrar notificaciones
+        function showNotification(message, type = 'success') {
+            // Remover notificación anterior si existe
+            const existing = document.querySelector('.notification');
+            if (existing) {
+                existing.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Mostrar sección (para breadcrumb)
+        function showSection(section) {
+            window.location.href = '/dashboard.html';
+        }
+    </script>
+</body>
+</html>

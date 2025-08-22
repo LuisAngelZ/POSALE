@@ -61,14 +61,6 @@ class SaleController {
                     });
                 }
 
-                // Verificar stock (opcional, puedes comentar si no manejas stock)
-                if (product.stock < item.quantity) {
-                    return res.status(400).json({
-                        success: false,
-                        message: `Stock insuficiente para ${product.name}. Disponible: ${product.stock}`
-                    });
-                }
-
                 const itemSubtotal = product.price * item.quantity;
                 subtotal += itemSubtotal;
 
@@ -107,12 +99,6 @@ class SaleController {
 
             // Crear los detalles de la venta
             await SaleDetail.createMultiple(newSale.id, validatedItems);
-
-            // Actualizar stock de productos (opcional)
-            // for (const item of validatedItems) {
-            //     const product = await Product.findById(item.product_id);
-            //     await Product.updateStock(item.product_id, product.stock - item.quantity);
-            // }
 
             // Obtener la venta completa con detalles
             const completeSale = await Sale.findById(newSale.id);

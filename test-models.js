@@ -19,19 +19,35 @@ async function testModels() {
         console.log('1️⃣ Probando modelo User...');
         
         // Verificar si el usuario admin ya existe
-        let user = await User.findByUsername('admin');
+        let adminUser = await User.findByUsername('admin');
         
-        if (!user) {
+        if (!adminUser) {
             // Si no existe, crearlo
-            user = await User.create({
+            adminUser = await User.create({
                 username: 'admin',
                 password: '123456',
-                full_name: 'Administrador',
+                full_name: 'Administrador del Sistema',
                 role: 'admin'
             });
-            console.log('✅ Usuario creado:', user.username);
+            console.log('✅ Usuario admin creado:', adminUser.username);
         } else {
-            console.log('✅ Usuario admin ya existe:', user.username);
+            console.log('✅ Usuario admin ya existe:', adminUser.username);
+        }
+
+        // Verificar si el usuario cajero ya existe
+        let cajeroUser = await User.findByUsername('cajero');
+        
+        if (!cajeroUser) {
+            // Si no existe, crearlo
+            cajeroUser = await User.create({
+                username: 'cajero',
+                password: '123456',
+                full_name: 'Cajero Principal',
+                role: 'cajero'
+            });
+            console.log('✅ Usuario cajero creado:', cajeroUser.username);
+        } else {
+            console.log('✅ Usuario cajero ya existe:', cajeroUser.username);
         }
 
         // 2. Probar modelo Category
@@ -99,7 +115,7 @@ async function testModels() {
             total: 33.00,
             paid_amount: 50.00,
             change_amount: 17.00,
-            user_id: user.id
+            user_id: adminUser.id // Usar el usuario admin
         });
 
         console.log('✅ Venta creada con ID:', sale.id);
