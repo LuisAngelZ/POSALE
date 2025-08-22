@@ -725,14 +725,6 @@
                             <span class="nav-item-icon">📦</span>
                             <span class="nav-item-text">Productos</span>
                         </button>
-                        <button class="nav-item" onclick="showSection('categories')">
-                            <span class="nav-item-icon">🏷️</span>
-                            <span class="nav-item-text">Categorías</span>
-                        </button>
-                        <button class="nav-item" onclick="showSection('create-product')">
-                            <span class="nav-item-icon">➕</span>
-                            <span class="nav-item-text">Crear Producto</span>
-                        </button>
                     </div>
 
                     <div class="nav-section">
@@ -787,35 +779,51 @@
                 `;
             }
         }
-   // Mostrar sección
-        function showSection(section) {
-            // Actualizar navegación activa
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.closest('.nav-item').classList.add('active');
+// Mostrar sección
+function showSection(section) {
+    // Actualizar navegación activa
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    event.target.closest('.nav-item').classList.add('active');
 
-            // Actualizar título de página
-            const titles = {
-                'dashboard': 'Dashboard',
-                'sales': 'Ventas',
-                'products': 'Productos',
-                'categories': 'Categorías',
-                'create-product': 'Crear Producto',
-                'reports-daily': 'Reporte Diario',
-                'reports-monthly': 'Reporte Mensual',
-                'reports-users': 'Reporte por Usuario',
-                'users': 'Usuarios',
-                'create-user': 'Crear Usuario',
-                'my-sales': 'Mis Ventas de Hoy'
-            };
+    // Mapeo de secciones a archivos
+    const sectionUrls = {
+        'dashboard': '/dashboard.html',
+        'create-user': '/create-user.html',
+        'products': '/products.html',
+        'categories': '/categories.html',
+        'sales': '/pos.html', // Por ahora ir al POS
+        'reports-daily': '/reports.html',
+        'reports-monthly': '/reports.html',
+        'reports-users': '/reports.html',
+        'users': '/dashboard.html', // Por ahora mantenerse en dashboard
+        'my-sales': '/dashboard.html' // Por ahora mantenerse en dashboard
+    };
 
-            document.getElementById('pageTitle').textContent = titles[section] || section;
-            document.getElementById('currentPage').textContent = titles[section] || section;
+    const titles = {
+        'dashboard': 'Dashboard',
+        'sales': 'Ventas',
+        'products': 'Productos', 
+        'create-user': 'Crear Usuario',
+        'reports-daily': 'Reporte Diario',
+        'reports-monthly': 'Reporte Mensual',
+        'reports-users': 'Reporte por Usuario',
+        'users': 'Usuarios',
+        'my-sales': 'Mis Ventas de Hoy'
+    };
 
-            // Aquí cargarías el contenido específico de cada sección
-            console.log(`Mostrando sección: ${section}`);
-        }
+    // Actualizar título
+    document.getElementById('pageTitle').textContent = titles[section] || section;
+    document.getElementById('currentPage').textContent = titles[section] || section;
+
+    // Redirigir a la página correspondiente si existe
+    if (sectionUrls[section] && sectionUrls[section] !== '/dashboard.html') {
+        window.location.href = sectionUrls[section];
+    } else {
+        console.log(`Mostrando sección: ${section} (contenido en desarrollo)`);
+    }
+}
         // Cargar datos del dashboard
         async function loadDashboardData() {
             try {

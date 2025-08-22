@@ -65,6 +65,10 @@ app.get('/login.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
+app.get('/products.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/views/products.html'));
+});
+
 // Importar rutas
 app.use('/api/auth', require('./server/routes/auth'));
 app.use('/api/categories', require('./server/routes/categories'));

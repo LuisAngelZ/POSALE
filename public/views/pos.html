@@ -948,70 +948,102 @@
             });
         }
 
-        async function processSale() {
-            if (cart.length === 0) {
-                showNotification('El carrito está vacío', 'error');
-                return;
-            }
+      async function processSale() {
+    if (cart.length === 0) {
+        showNotification('El carrito está vacío', 'error');
+        return;
+    }
 
-            const subtotal = cart.reduce((sum, item) => sum + (item.unit_price * item.quantity), 0);
-            const paidAmount = parseFloat(document.getElementById('paidAmount').value);
-            
-            if (paidAmount < subtotal) {
-                showNotification('Monto insuficiente', 'error');
-                return;
-            }
+    const subtotal = cart.reduce((sum, item) => sum + (item.unit_price * item.quantity), 0);
+    const paidAmount = parseFloat(document.getElementById('paidAmount').value);
+    
+    if (paidAmount < subtotal) {
+        showNotification('Monto insuficiente', 'error');
+        return;
+    }
 
-            const saleData = {
-                customer_nit: document.getElementById('customerNit').value || null,
-                customer_name: document.getElementById('customerName').value || null,
-                order_type: document.getElementById('orderType').value,
-                table_number: document.getElementById('tableNumber').value || null,
-                observations: document.getElementById('observations').value || null,
-                items: cart.map(item => ({
-                    product_id: item.product_id,
-                    quantity: item.quantity
-                })),
-                paid_amount: paidAmount
-            };
+    const saleData = {
+        customer_nit: document.getElementById('customerNit').value || null,
+        customer_name: document.getElementById('customerName').value || null,
+        order_type: document.getElementById('orderType').value,
+        table_number: document.getElementById('tableNumber').value || null,
+        observations: document.getElementById('observations').value || null,
+        items: cart.map(item => ({
+            product_id: item.product_id,
+            quantity: item.quantity
+        })),
+        paid_amount: paidAmount
+    };
 
-            try {
-                document.getElementById('processBtn').disabled = true;
-                document.getElementById('processBtn').textContent = 'Procesando...';
+    try {
+        document.getElementById('processBtn').disabled = true;
+        document.getElementById('processBtn').textContent = 'Procesando...';
 
-                const response = await fetch(`${API_BASE}/sales`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(saleData)
-                });
+        const response = await fetch(`${API_BASE}/sales`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saleData)
+        });
 
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.message || 'Error procesando la venta');
-                }
-
-                const result = await response.json();
-                
-                showNotification('¡Venta procesada exitosamente!', 'success');
-                
-                // Limpiar formulario
-                clearSale();
-                
-                // Mostrar detalles de la venta
-                showSaleDetails(result.sale);
-                
-            } catch (error) {
-                console.error('Error procesando venta:', error);
-                showNotification(error.message, 'error');
-            } finally {
-                document.getElementById('processBtn').disabled = false;
-                document.getElementById('processBtn').textContent = 'Procesar Venta';
-            }
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Error procesando la venta');
         }
 
+        const result = await response.json();
+        
+        showNotification('¡Venta procesada exitosamente!', 'success');
+        
+        // IMPRIMIR AUTOMÁTICAMENTE - NUEVO CÓDIGO
+        try {
+            console.log('🖨️ Enviando ticket a impresora automáticamente...');
+            await printSaleTicketAuto(result.sale);
+        } catch (printError) {
+            console.error('Error en impresión automática:', printError);
+            showNotification('Venta guardada, pero hubo error en impresión', 'error');
+        }
+        
+        // Limpiar formulario
+        clearSale();
+        
+        // Ya no mostrar confirmación - se imprime automáticamente
+        
+    } catch (error) {
+        console.error('Error procesando venta:', error);
+        showNotification(error.message, 'error');
+    } finally {
+        document.getElementById('processBtn').disabled = false;
+        document.getElementById('processBtn').textContent = 'Procesar Venta';
+    }
+}
+async function printSaleTicketAuto(sale) {
+    try {
+        const response = await fetch(`${API_BASE}/printer/print-sale`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ sale_data: sale })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showNotification('✅ Ticket impreso automáticamente', 'success');
+            console.log('✅ Impresión automática exitosa');
+        } else {
+            throw new Error(result.message);
+        }
+        
+    } catch (error) {
+        console.error('Error en impresión automática:', error);
+        throw error;
+    }
+}
         function clearSale() {
             cart = [];
             document.getElementById('customerNit').value = '';
