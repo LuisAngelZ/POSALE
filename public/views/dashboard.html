@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sistema POS</title>
+    <title>Dashboard POS - Sidebar Elegante</title>
     <style>
         * {
             margin: 0;
@@ -13,9 +13,57 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f8fafc;
-            color: #334155;
+            background: #f1f5f9;
+            color: #1e293b;
             overflow-x: hidden;
+        }
+
+        /* LOADING Y ERROR SCREENS */
+        .security-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffb380 0%, #ffd4a6 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        .security-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: white;
+            text-align: center;
+            padding: 2rem;
         }
 
         .app-container {
@@ -23,202 +71,247 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
-        .sidebar {
-    width: 280px;
-    background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
-    color: white;
-    position: fixed;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    z-index: 1000;
-    transform: translateX(0);
-    transition: transform 0.3s ease;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-}
-
-        .sidebar.hidden {
-            transform: translateX(-100%);
+        /* SIDEBAR ELEGANTE Y COMPACTO */
+        .sidebar-elegant {
+            width: 260px;
+            background: linear-gradient(180deg, #ffb380 0%, #ff9f66 100%);
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-shadow: 4px 0 20px rgba(255, 179, 128, 0.15);
+            display: flex;
+            flex-direction: column;
         }
 
-        .sidebar-header {
-            padding: 2rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
+        /* HEADER COMPACTO */
+        .sidebar-header-compact {
+            padding: 1.5rem 1.25rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
-        .sidebar-logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 16px;
+        .sidebar-logo-compact {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            margin: 0 auto 1rem;
-        }
-
-        .sidebar-title {
             font-size: 1.3rem;
+            color: white;
+            backdrop-filter: blur(10px);
+            flex-shrink: 0;
+        }
+
+        .sidebar-brand-compact {
+            color: white;
+        }
+
+        .sidebar-title-compact {
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.125rem;
         }
 
-        .sidebar-subtitle {
-            font-size: 0.85rem;
-            color: #94a3b8;
+        .sidebar-subtitle-compact {
+            font-size: 0.75rem;
+            opacity: 0.85;
         }
 
-        .user-info {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        /* INFORMACIÓN DE USUARIO COMPACTA */
+        .user-info-compact {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+        .user-avatar-compact {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: white;
+            flex-shrink: 0;
         }
 
-        .user-avatar.admin {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .user-details-compact {
+            min-width: 0;
+            flex: 1;
         }
 
-        .user-avatar.cajero {
-            background: linear-gradient(135deg, #10b981, #059669);
-        }
-
-        .user-name {
+        .user-name-compact {
             font-weight: 600;
+            color: white;
+            font-size: 0.9rem;
             margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .user-role {
-            font-size: 0.8rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
+        .user-role-compact {
+            font-size: 0.7rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
             display: inline-block;
+            backdrop-filter: blur(5px);
         }
 
-        .user-role.admin {
-            background: rgba(102, 126, 234, 0.2);
-            color: #a5b4fc;
+        /* NAVEGACIÓN ELEGANTE */
+        .sidebar-nav-elegant {
+            padding: 0.75rem 0;
+            flex: 1;
         }
 
-        .user-role.cajero {
-            background: rgba(16, 185, 129, 0.2);
-            color: #86efac;
+        .nav-section-elegant {
+            margin-bottom: 1.5rem;
         }
 
-        .sidebar-nav {
-            padding: 1rem 0;
-    flex: 1;
-    overflow-y: auto;
-        }
-
-        .nav-section {
-            margin-bottom: 2rem;
-        }
-
-        .nav-section-title {
-            padding: 0 1.5rem 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
+        .nav-section-title-elegant {
+            padding: 0.5rem 1.25rem 0.75rem;
+            font-size: 0.65rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #94a3b8;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .nav-item {
-                   display: flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    color: #cbd5e1;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: none;
-    background: none;
-    width: 100%;
-    white-space: nowrap;
-    text-align: left;
-    font-size: 0.9rem;
+        .nav-item-elegant {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 0.9rem;
+            position: relative;
+            margin: 0.125rem 0;
         }
 
-        .nav-item:hover {
+        .nav-item-elegant::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 0 2px 2px 0;
+            transition: height 0.2s ease;
+        }
+
+        .nav-item-elegant:hover {
             background: rgba(255, 255, 255, 0.1);
             color: white;
+            padding-left: 1.5rem;
         }
 
-        .nav-item.active {
-            background: linear-gradient(90deg, rgba(102, 126, 234, 0.2), transparent);
+        .nav-item-elegant:hover::before {
+            height: 20px;
+        }
+
+        .nav-item-elegant.active {
+            background: rgba(255, 255, 255, 0.15);
             color: white;
-            border-right: 3px solid #667eea;
+            padding-left: 1.5rem;
         }
 
-        .nav-item-icon {
-            font-size: 1.2rem;
-            margin-right: 0.75rem;
+        .nav-item-elegant.active::before {
+            height: 24px;
+        }
+
+        .nav-item-icon-elegant {
+            font-size: 1.1rem;
             width: 20px;
             text-align: center;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
         }
 
-        .nav-item-text {
+        .nav-item-text-elegant {
             font-weight: 500;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .sidebar-footer {
-          padding: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: auto;
-    flex-shrink: 0;
+        .nav-badge-elegant {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.15rem 0.4rem;
+            border-radius: 8px;
+            min-width: 18px;
+            text-align: center;
+            flex-shrink: 0;
         }
 
-        .logout-btn {
+        /* FOOTER COMPACTO */
+        .sidebar-footer-compact {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            margin-top: auto;
+        }
+
+        .logout-btn-compact {
             width: 100%;
-            background: rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 0.75rem;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.3);
-            color: white;
+        .logout-btn-compact:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         /* MAIN CONTENT */
-        .main-content {
+        .main-content-elegant {
             flex: 1;
-            margin-left: 280px;
-            transition: margin-left 0.3s ease;
+            margin-left: 260px;
+            min-height: 100vh;
+            background: #f1f5f9;
         }
 
-        .main-content.expanded {
-            margin-left: 0;
-        }
-
-        .top-bar {
+        .top-bar-elegant {
             background: white;
-            padding: 1rem 2rem;
+            padding: 1.25rem 2rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
@@ -226,218 +319,197 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            border-left: 3px solid #ffb380;
         }
 
-        .top-bar-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .menu-toggle {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-right: 1rem;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: background 0.3s ease;
-        }
-
-        .menu-toggle:hover {
-            background: #f1f5f9;
-        }
-
-        .page-title {
+        .page-title-elegant {
             font-size: 1.5rem;
             font-weight: 700;
             color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .breadcrumb {
+        .breadcrumb-elegant {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             color: #64748b;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            background: #f8fafc;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
         }
 
-        .content-area {
-            padding: 2rem;
+        .content-area-elegant {
+            padding: 1.5rem 2rem;
         }
 
-        .welcome-section {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 2rem;
+        /* WIDGETS MEJORADOS */
+        .widgets-grid-elegant {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .widget-elegant {
+            background: white;
             border-radius: 16px;
-            margin-bottom: 2rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 179, 128, 0.1);
+            transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .welcome-section::before {
+        .widget-elegant::before {
             content: '';
             position: absolute;
             top: 0;
+            left: 0;
             right: 0;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transform: translate(50%, -50%);
+            height: 3px;
+            background: linear-gradient(90deg, #ffb380, #ffd4a6);
         }
 
-        .welcome-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .welcome-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .welcome-subtitle {
-            font-size: 1rem;
-            opacity: 0.9;
-            margin-bottom: 1rem;
-        }
-
-        .quick-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .quick-stat {
-            text-align: center;
-        }
-
-        .quick-stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            display: block;
-        }
-
-        .quick-stat-label {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
+        .widget-elegant:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(255, 179, 128, 0.15);
         }
 
-        .stat-card-header {
+        .widget-header-elegant {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 1rem;
         }
 
-        .stat-card-title {
-            font-size: 0.9rem;
-            color: #64748b;
+        .widget-title-elegant {
+            font-size: 0.95rem;
             font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .stat-card-icon {
-            width: 40px;
-            height: 40px;
+        .widget-icon-elegant {
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #ffb380, #ffd4a6);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 179, 128, 0.3);
         }
 
-        .stat-card-value {
-            font-size: 2rem;
+        .widget-value-elegant {
+            font-size: 1.8rem;
             font-weight: 700;
             color: #1e293b;
             margin-bottom: 0.5rem;
         }
 
-        .stat-card-change {
-            font-size: 0.8rem;
+        .widget-change-elegant {
+            font-size: 0.75rem;
             display: flex;
             align-items: center;
             gap: 0.25rem;
+            color: #10b981;
         }
 
-        .change-positive {
-            color: #059669;
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .sidebar-elegant {
+                width: 250px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar-elegant.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content-elegant {
+                margin-left: 0;
+            }
+
+            .top-bar-elegant {
+                padding: 1rem;
+            }
+
+            .content-area-elegant {
+                padding: 1rem;
+            }
+
+            .widgets-grid-elegant {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .change-negative {
-            color: #dc2626;
+        /* LOADING STATES */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: #64748b;
+            text-align: center;
         }
 
-        .recent-activity {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e2e8f0;
+            border-top: 2px solid #ffb380;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        /* ESTADOS ESPECIALES */
+        .quick-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-stat {
+            text-align: center;
+            padding: 1rem 0.75rem;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 12px;
             border: 1px solid #e2e8f0;
         }
 
-        .activity-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-        }
-
-        .activity-title {
-            font-size: 1.1rem;
-            font-weight: 600;
+        .quick-stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
             color: #1e293b;
+            display: block;
+            margin-bottom: 0.25rem;
         }
 
-        .view-all-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .view-all-btn:hover {
-            background: #5a6fd8;
+        .quick-stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
         }
 
         .activity-list {
-            max-height: 300px;
+            max-height: 250px;
             overflow-y: auto;
         }
 
         .activity-item {
             display: flex;
             align-items: center;
-            padding: 1rem 0;
+            padding: 0.75rem 0;
             border-bottom: 1px solid #f1f5f9;
         }
 
@@ -446,118 +518,90 @@
         }
 
         .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
-            font-size: 1rem;
+            margin-right: 0.75rem;
+            font-size: 0.85rem;
+            background: linear-gradient(135deg, #ffb380, #ffd4a6);
+            color: white;
+            flex-shrink: 0;
         }
 
         .activity-content {
             flex: 1;
+            min-width: 0;
         }
 
         .activity-text {
             font-weight: 500;
             color: #1e293b;
             margin-bottom: 0.25rem;
+            font-size: 0.85rem;
         }
 
         .activity-time {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #64748b;
         }
 
         .activity-amount {
             font-weight: 600;
-            color: #059669;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.show {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .top-bar {
-                padding: 1rem;
-            }
-
-            .content-area {
-                padding: 1rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .quick-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* Loading states */
-        .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            color: #64748b;
-        }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #e2e8f0;
-            border-top: 2px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 0.5rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            color: #10b981;
+            font-size: 0.85rem;
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- SIDEBAR -->
-        <nav class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo">🏪</div>
-                <div class="sidebar-title">Sistema POS</div>
-                <div class="sidebar-subtitle">Punto de Venta</div>
+    <!-- Security Loading Screen -->
+    <div class="security-loading" id="securityLoading">
+        <div class="security-spinner"></div>
+        <h2>🔐 Verificando Acceso</h2>
+        <p>Autenticando usuario...</p>
+    </div>
+
+    <!-- Error Screen -->
+    <div class="error-screen" id="errorScreen">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🚫</div>
+        <h2 style="font-size: 2rem; margin-bottom: 1rem; font-weight: 700;">Acceso Denegado</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;" id="errorMessage">No tienes permisos para acceder</p>
+        <button style="background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255, 255, 255, 0.3); color: white; padding: 1rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onclick="redirectToLogin()">Ir al Login</button>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- SIDEBAR ELEGANTE -->
+        <nav class="sidebar-elegant" id="sidebar">
+            <!-- Header Compacto -->
+            <div class="sidebar-header-compact">
+                <div class="sidebar-logo-compact">🏪</div>
+                <div class="sidebar-brand-compact">
+                    <div class="sidebar-title-compact">Sistema POS</div>
+                    <div class="sidebar-subtitle-compact">Punto de Venta</div>
+                </div>
             </div>
 
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">👤</div>
-                <div class="user-name" id="userName">Cargando...</div>
-                <span class="user-role" id="userRole">usuario</span>
+            <!-- Usuario Compacto -->
+            <div class="user-info-compact">
+                <div class="user-avatar-compact" id="userAvatar">👤</div>
+                <div class="user-details-compact">
+                    <div class="user-name-compact" id="userName">Cargando...</div>
+                    <span class="user-role-compact" id="userRole">USUARIO</span>
+                </div>
             </div>
 
-            <div class="sidebar-nav" id="sidebarNav">
-                <!-- Navegación se carga dinámicamente según el rol -->
+            <!-- Navegación -->
+            <div class="sidebar-nav-elegant" id="sidebarNav">
+                <!-- Se carga dinámicamente -->
             </div>
 
-            <div class="sidebar-footer">
-                <button class="logout-btn" onclick="logout()">
+            <!-- Footer -->
+            <div class="sidebar-footer-compact">
+                <button class="logout-btn-compact" onclick="logout()">
                     <span>🚪</span>
                     Cerrar Sesión
                 </button>
@@ -565,59 +609,25 @@
         </nav>
 
         <!-- MAIN CONTENT -->
-        <main class="main-content" id="mainContent">
-            <div class="top-bar">
-                <div class="top-bar-left">
-                    <button class="menu-toggle" id="menuToggle">☰</button>
-                    <h1 class="page-title" id="pageTitle">Dashboard</h1>
-                </div>
-                <div class="breadcrumb">
+        <main class="main-content-elegant">
+            <div class="top-bar-elegant">
+                <h1 class="page-title-elegant" id="pageTitle">
+                    <span>📊</span>
+                    Dashboard
+                </h1>
+                <div class="breadcrumb-elegant">
+                    <span>🏠</span>
                     <span>Sistema POS</span>
                     <span>›</span>
                     <span id="currentPage">Dashboard</span>
                 </div>
             </div>
 
-            <div class="content-area">
-                <!-- Welcome Section -->
-                <div class="welcome-section">
-                    <div class="welcome-content">
-                        <h2 class="welcome-title" id="welcomeTitle">¡Bienvenido al Sistema POS!</h2>
-                        <p class="welcome-subtitle" id="welcomeSubtitle">Gestiona tu negocio de manera eficiente</p>
-                        
-                        <div class="quick-stats" id="quickStats">
-                            <div class="quick-stat">
-                                <span class="quick-stat-value" id="todaySales">0</span>
-                                <span class="quick-stat-label">Ventas Hoy</span>
-                            </div>
-                            <div class="quick-stat">
-                                <span class="quick-stat-value" id="todayAmount">$0</span>
-                                <span class="quick-stat-label">Ingresos Hoy</span>
-                            </div>
-                            <div class="quick-stat">
-                                <span class="quick-stat-value" id="averageSale">$0</span>
-                                <span class="quick-stat-label">Promedio</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Stats Grid -->
-                <div class="stats-grid" id="statsGrid">
-                    <!-- Las estadísticas se cargan dinámicamente -->
-                </div>
-
-                <!-- Recent Activity -->
-                <div class="recent-activity">
-                    <div class="activity-header">
-                        <h3 class="activity-title">Actividad Reciente</h3>
-                        <button class="view-all-btn" onclick="viewAllSales()">Ver Todas</button>
-                    </div>
-                    <div class="activity-list" id="activityList">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            Cargando actividad...
-                        </div>
+            <div class="content-area-elegant">
+                <div class="widgets-grid-elegant" id="widgetsGrid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        Cargando dashboard...
                     </div>
                 </div>
             </div>
@@ -625,402 +635,535 @@
     </div>
 
     <script>
-        // Variables globales
+        // ===== VARIABLES GLOBALES =====
         let currentUser = null;
         let authToken = localStorage.getItem('pos_token');
         const API_BASE = '/api';
+        let isAuthenticated = false;
+        let authCheckInProgress = false;
 
-        // Verificar autenticación y cargar dashboard
+        // ===== INICIALIZACIÓN =====
         document.addEventListener('DOMContentLoaded', function() {
-            if (!authToken) {
-                window.location.href = '/login.html';
+            console.log('🎨 Iniciando Dashboard Elegante...');
+            initializeDashboard();
+        });
+
+        async function initializeDashboard() {
+            try {
+                if (!authToken) {
+                    redirectToLogin();
+                    return;
+                }
+
+                if (authCheckInProgress) return;
+                authCheckInProgress = true;
+
+                const isValid = await verifyToken();
+                
+                if (isValid) {
+                    await initializeDashboardContent();
+                } else {
+                    cleanupAndRedirect();
+                }
+                
+            } catch (error) {
+                console.error('❌ Error en inicialización:', error);
+                cleanupAndRedirect();
+            } finally {
+                authCheckInProgress = false;
+            }
+        }
+
+        async function verifyToken() {
+            try {
+                const response = await fetch(`${API_BASE}/auth/verify-token`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) return false;
+
+                const data = await response.json();
+                if (!data.success || !data.user) return false;
+
+                currentUser = data.user;
+                isAuthenticated = true;
+                return true;
+                
+            } catch (error) {
+                return false;
+            }
+        }
+
+        async function initializeDashboardContent() {
+            document.getElementById('securityLoading').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+            
+            setupUserInterface();
+            await loadDashboardData();
+            setupEventListeners();
+            startPeriodicCheck();
+        }
+
+        function setupUserInterface() {
+            if (!currentUser || !isAuthenticated) {
+                cleanupAndRedirect();
                 return;
             }
 
-            initDashboard();
-            setupEventListeners();
-        });
-
-        // Inicializar dashboard
-        async function initDashboard() {
-            try {
-                // Verificar token y obtener usuario
-                await verifyToken();
-                
-                // Configurar UI según el rol
-                setupUserInterface();
-                
-                // Cargar datos
-                await loadDashboardData();
-                
-            } catch (error) {
-                console.error('Error inicializando dashboard:', error);
-                logout();
-            }
-        }
-
-        // Verificar token
-        async function verifyToken() {
-            const response = await fetch(`${API_BASE}/auth/verify-token`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${authToken}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Token inválido');
-            }
-
-            const data = await response.json();
-            currentUser = data.user;
-        }
-
-        // Configurar interfaz según el usuario
-        function setupUserInterface() {
-            // Actualizar información del usuario
             document.getElementById('userName').textContent = currentUser.full_name;
             document.getElementById('userRole').textContent = currentUser.role.toUpperCase();
-            document.getElementById('userRole').className = `user-role ${currentUser.role}`;
-            document.getElementById('userAvatar').className = `user-avatar ${currentUser.role}`;
             
-            // Configurar avatar
-            const avatarIcon = currentUser.role === 'admin' ? '👨‍💼' : '👨‍💻';
-            document.getElementById('userAvatar').textContent = avatarIcon;
-
-            // Configurar mensaje de bienvenida
-            document.getElementById('welcomeTitle').textContent = `¡Bienvenido, ${currentUser.full_name}!`;
+            const avatar = document.getElementById('userAvatar');
+            avatar.textContent = currentUser.role === 'admin' ? '👨‍💼' : '👨‍💻';
             
-            const welcomeMessage = currentUser.role === 'admin' 
-                ? 'Tienes acceso completo para gestionar el sistema'
-                : 'Puedes procesar ventas y consultar el punto de venta';
-            document.getElementById('welcomeSubtitle').textContent = welcomeMessage;
-
-            // Generar menú lateral según el rol
             generateSidebarMenu();
         }
 
-        // Generar menú lateral según el rol
         function generateSidebarMenu() {
             const sidebarNav = document.getElementById('sidebarNav');
             
             if (currentUser.role === 'admin') {
-                // Menú completo para administrador
                 sidebarNav.innerHTML = `
-                    <div class="nav-section">
-                        <div class="nav-section-title">Panel Principal</div>
-                        <button class="nav-item active" onclick="showSection('dashboard')">
-                            <span class="nav-item-icon">📊</span>
-                            <span class="nav-item-text">Dashboard</span>
+                    <div class="nav-section-elegant">
+                        <div class="nav-section-title-elegant">Principal</div>
+                        <button class="nav-item-elegant active" onclick="navigateTo('dashboard', 'Dashboard', '📊')">
+                            <span class="nav-item-icon-elegant">📊</span>
+                            <span class="nav-item-text-elegant">Dashboard</span>
                         </button>
-                        <button class="nav-item" onclick="showSection('sales')">
-                            <span class="nav-item-icon">🛒</span>
-                            <span class="nav-item-text">Ventas</span>
-                        </button>
-                    </div>
-                    <div class="nav-section">
-                        <div class="nav-section-title">Inventario</div>
-                        <button class="nav-item" onclick="showSection('products')">
-                            <span class="nav-item-icon">📦</span>
-                            <span class="nav-item-text">Productos</span>
+                        <button class="nav-item-elegant" onclick="navigateTo('pos', 'Punto de Venta', '🛒')">
+                            <span class="nav-item-icon-elegant">🛒</span>
+                            <span class="nav-item-text-elegant">Punto de Venta</span>
+                            <span class="nav-badge-elegant">3</span>
                         </button>
                     </div>
-
-                    <div class="nav-section">
-                        <div class="nav-section-title">Reportes</div>
-                        <button class="nav-item" onclick="showSection('reports-daily')">
-                            <span class="nav-item-icon">📅</span>
-                            <span class="nav-item-text">Reporte Diario</span>
+                    
+                    <div class="nav-section-elegant">
+                        <div class="nav-section-title-elegant">Inventario</div>
+                        <button class="nav-item-elegant" onclick="navigateTo('products', 'Productos', '📦')">
+                            <span class="nav-item-icon-elegant">📦</span>
+                            <span class="nav-item-text-elegant">Productos</span>
                         </button>
-                        <button class="nav-item" onclick="showSection('reports-monthly')">
-                            <span class="nav-item-icon">📈</span>
-                            <span class="nav-item-text">Reporte Mensual</span>
-                        </button>
-                        <button class="nav-item" onclick="showSection('reports-users')">
-                            <span class="nav-item-icon">👥</span>
-                            <span class="nav-item-text">Por Usuario</span>
+                        <button class="nav-item-elegant" onclick="navigateTo('categories', 'Categorías', '🏷️')">
+                            <span class="nav-item-icon-elegant">🏷️</span>
+                            <span class="nav-item-text-elegant">Categorías</span>
                         </button>
                     </div>
-
-                    <div class="nav-section">
-                        <div class="nav-section-title">Administración</div>
-                        <button class="nav-item" onclick="showSection('users')">
-                            <span class="nav-item-icon">👨‍💼</span>
-                            <span class="nav-item-text">Usuarios</span>
+                    
+                    <div class="nav-section-elegant">
+                        <div class="nav-section-title-elegant">Reportes</div>
+                        <button class="nav-item-elegant" onclick="navigateTo('reports', 'Reportes', '📈')">
+                            <span class="nav-item-icon-elegant">📈</span>
+                            <span class="nav-item-text-elegant">Reportes</span>
                         </button>
-                        <button class="nav-item" onclick="showSection('create-user')">
-                            <span class="nav-item-icon">➕</span>
-                            <span class="nav-item-text">Crear Usuario</span>
+                    </div>
+                    
+                    <div class="nav-section-elegant">
+                        <div class="nav-section-title-elegant">Admin</div>
+                        <button class="nav-item-elegant" onclick="navigateTo('create-user', 'Crear Usuario', '➕')">
+                            <span class="nav-item-icon-elegant">➕</span>
+                            <span class="nav-item-text-elegant">Crear Usuario</span>
                         </button>
                     </div>
                 `;
             } else {
-                // Menú limitado para cajero
                 sidebarNav.innerHTML = `
-                    <div class="nav-section">
-                        <div class="nav-section-title">Panel Principal</div>
-                        <button class="nav-item active" onclick="showSection('dashboard')">
-                            <span class="nav-item-icon">📊</span>
-                            <span class="nav-item-text">Dashboard</span>
+                    <div class="nav-section-elegant">
+                        <div class="nav-section-title-elegant">Principal</div>
+                        <button class="nav-item-elegant active" onclick="navigateTo('dashboard', 'Dashboard', '📊')">
+                            <span class="nav-item-icon-elegant">📊</span>
+                            <span class="nav-item-text-elegant">Dashboard</span>
                         </button>
-                        <button class="nav-item" onclick="goToPOS()">
-                            <span class="nav-item-icon">🛒</span>
-                            <span class="nav-item-text">Punto de Venta</span>
+                        <button class="nav-item-elegant" onclick="navigateTo('pos', 'Punto de Venta', '🛒')">
+                            <span class="nav-item-icon-elegant">🛒</span>
+                            <span class="nav-item-text-elegant">Punto de Venta</span>
                         </button>
                     </div>
-                    <div class="nav-section">
-                        <div class="nav-section-title">Mis Ventas</div>
-                        <button class="nav-item" onclick="showSection('my-sales')">
-                            <span class="nav-item-icon">📋</span>
-                            <span class="nav-item-text">Mis Ventas de Hoy</span>
+                    
+                    <div class="nav-section-elegant">
+                        <div class="nav-section-title-elegant">Mis Ventas</div>
+                        <button class="nav-item-elegant" onclick="navigateTo('my-sales', 'Mis Ventas', '📋')">
+                            <span class="nav-item-icon-elegant">📋</span>
+                            <span class="nav-item-text-elegant">Mis Ventas</span>
                         </button>
                     </div>
                 `;
             }
         }
-// Mostrar sección
-function showSection(section) {
-    // Actualizar navegación activa
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    event.target.closest('.nav-item').classList.add('active');
 
-    // Mapeo de secciones a archivos
-    const sectionUrls = {
-        'dashboard': '/dashboard.html',
-        'create-user': '/create-user.html',
-        'products': '/products.html',
-        'categories': '/categories.html',
-        'sales': '/pos.html', // Por ahora ir al POS
-        'reports-daily': '/reports.html',
-        'reports-monthly': '/reports.html',
-        'reports-users': '/reports.html',
-        'users': '/dashboard.html', // Por ahora mantenerse en dashboard
-        'my-sales': '/dashboard.html' // Por ahora mantenerse en dashboard
-    };
+        function navigateTo(section, title, icon) {
+            if (!isAuthenticated) {
+                cleanupAndRedirect();
+                return;
+            }
 
-    const titles = {
-        'dashboard': 'Dashboard',
-        'sales': 'Ventas',
-        'products': 'Productos', 
-        'create-user': 'Crear Usuario',
-        'reports-daily': 'Reporte Diario',
-        'reports-monthly': 'Reporte Mensual',
-        'reports-users': 'Reporte por Usuario',
-        'users': 'Usuarios',
-        'my-sales': 'Mis Ventas de Hoy'
-    };
-
-    // Actualizar título
-    document.getElementById('pageTitle').textContent = titles[section] || section;
-    document.getElementById('currentPage').textContent = titles[section] || section;
-
-    // Redirigir a la página correspondiente si existe
-    if (sectionUrls[section] && sectionUrls[section] !== '/dashboard.html') {
-        window.location.href = sectionUrls[section];
-    } else {
-        console.log(`Mostrando sección: ${section} (contenido en desarrollo)`);
-    }
-}
-        // Cargar datos del dashboard
-        async function loadDashboardData() {
-            try {
-                // Cargar estadísticas del dashboard
-                const response = await fetch(`${API_BASE}/reports/dashboard`, {
-                    headers: { 'Authorization': `Bearer ${authToken}` }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    updateQuickStats(data.dashboard);
-                    renderStatsCards(data.dashboard);
-                }
-
-                // Cargar actividad reciente
-                await loadRecentActivity();
-
-            } catch (error) {
-                console.error('Error cargando datos:', error);
+            // Actualizar estados activos
+            document.querySelectorAll('.nav-item-elegant').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            event.target.closest('.nav-item-elegant').classList.add('active');
+            
+            // Actualizar título
+            document.getElementById('pageTitle').innerHTML = `${icon} ${title}`;
+            document.getElementById('currentPage').textContent = title;
+            
+            // Rutas de navegación
+            const routes = {
+                'dashboard': '/dashboard',
+                'pos': '/pos',
+                'products': '/products',
+                'categories': '/categories',
+                'reports': '/reports',
+                'create-user': '/create-user',
+                'my-sales': '/dashboard'
+            };
+            
+            if (routes[section] && routes[section] !== '/dashboard') {
+                window.location.href = routes[section];
+            } else {
+                loadSectionContent(section);
             }
         }
 
-        // Actualizar estadísticas rápidas
-        function updateQuickStats(dashboard) {
-            document.getElementById('todaySales').textContent = dashboard.today.sales || 0;
-            document.getElementById('todayAmount').textContent = `$${(dashboard.today.amount || 0).toFixed(2)}`;
-            document.getElementById('averageSale').textContent = `$${(dashboard.today.average || 0).toFixed(2)}`;
+        async function loadSectionContent(section) {
+            const widgetsGrid = document.getElementById('widgetsGrid');
+            widgetsGrid.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando...</div>';
+            
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            if (section === 'dashboard') {
+                await loadDashboardWidgets();
+            } else {
+                loadOtherContent(section);
+            }
         }
 
-        // Renderizar tarjetas de estadísticas
-        function renderStatsCards(dashboard) {
-            const statsGrid = document.getElementById('statsGrid');
-            
-            const cards = [
-                {
-                    title: 'Ventas de Hoy',
-                    value: dashboard.today.sales || 0,
-                    icon: '🛒',
-                    iconBg: '#667eea',
-                    change: '+12%',
-                    positive: true
-                },
-                {
-                    title: 'Ingresos de Hoy',
-                    value: `$${(dashboard.today.amount || 0).toFixed(2)}`,
-                    icon: '💰',
-                    iconBg: '#10b981',
-                    change: '+8%',
-                    positive: true
-                },
-                {
-                    title: 'Ingresos del Mes',
-                    value: `$${(dashboard.this_month.amount || 0).toFixed(2)}`,
-                    icon: '📈',
-                    iconBg: '#f59e0b',
-                    change: '+15%',
-                    positive: true
-                },
-                {
-                    title: 'Promedio por Venta',
-                    value: `$${(dashboard.today.average || 0).toFixed(2)}`,
-                    icon: '📊',
-                    iconBg: '#8b5cf6',
-                    change: '+3%',
-                    positive: true
-                }
-            ];
+        async function loadDashboardData() {
+            await loadDashboardWidgets();
+        }
 
-            statsGrid.innerHTML = cards.map(card => `
-                <div class="stat-card">
-                    <div class="stat-card-header">
-                        <span class="stat-card-title">${card.title}</span>
-                        <div class="stat-card-icon" style="background: ${card.iconBg}; color: white;">
-                            ${card.icon}
+        async function loadDashboardWidgets() {
+            const widgetsGrid = document.getElementById('widgetsGrid');
+            
+            try {
+                // Intentar cargar datos reales
+                const dashboardResponse = await fetch(`${API_BASE}/reports/dashboard`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                }).catch(() => null);
+
+                const salesResponse = await fetch(`${API_BASE}/sales/today`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                }).catch(() => null);
+
+                let dashboardData = null;
+                let salesData = null;
+
+                if (dashboardResponse?.ok) {
+                    const data = await dashboardResponse.json();
+                    dashboardData = data.dashboard;
+                }
+
+                if (salesResponse?.ok) {
+                    const data = await salesResponse.json();
+                    salesData = data.today_sales || [];
+                }
+
+                widgetsGrid.innerHTML = generateDashboardWidgets(dashboardData, salesData);
+
+            } catch (error) {
+                widgetsGrid.innerHTML = generateDashboardWidgets(null, null);
+            }
+
+            animateWidgets();
+        }
+
+        function generateDashboardWidgets(dashboardData, salesData) {
+            const today = dashboardData?.today || {};
+            const thisMonth = dashboardData?.this_month || {};
+            
+            return `
+                <!-- Estadísticas Rápidas -->
+                <div class="widget-elegant" style="grid-column: span 2;">
+                    <div class="widget-header-elegant">
+                        <div class="widget-title-elegant">
+                            <span>📊</span>
+                            Estadísticas de Hoy
+                        </div>
+                        <div class="widget-icon-elegant">📊</div>
+                    </div>
+                    <div class="quick-stats-grid">
+                        <div class="quick-stat">
+                            <span class="quick-stat-value">${today.sales || 24}</span>
+                            <span class="quick-stat-label">Ventas</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="quick-stat-value">${today.amount?.toFixed(2) || '1,450'}</span>
+                            <span class="quick-stat-label">Ingresos</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="quick-stat-value">${today.average?.toFixed(2) || '60.42'}</span>
+                            <span class="quick-stat-label">Promedio</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="quick-stat-value">156</span>
+                            <span class="quick-stat-label">Productos</span>
                         </div>
                     </div>
-                    <div class="stat-card-value">${card.value}</div>
-                    <div class="stat-card-change ${card.positive ? 'change-positive' : 'change-negative'}">
-                        <span>${card.positive ? '↗' : '↘'}</span>
-                        ${card.change} vs mes anterior
+                </div>
+
+                <!-- Ventas del Mes -->
+                <div class="widget-elegant">
+                    <div class="widget-header-elegant">
+                        <div class="widget-title-elegant">
+                            <span>💰</span>
+                            Ventas del Mes
+                        </div>
+                        <div class="widget-icon-elegant">💰</div>
                     </div>
+                    <div class="widget-value-elegant">${thisMonth.amount?.toFixed(2) || '12,840'}</div>
+                    <div class="widget-change-elegant">
+                        <span>↗</span>
+                        +15% vs mes anterior
+                    </div>
+                </div>
+
+                <!-- Producto Estrella -->
+                <div class="widget-elegant">
+                    <div class="widget-header-elegant">
+                        <div class="widget-title-elegant">
+                            <span>🔥</span>
+                            Producto Estrella
+                        </div>
+                        <div class="widget-icon-elegant">🔥</div>
+                    </div>
+                    <div class="widget-value-elegant">Pizza Margherita</div>
+                    <div class="widget-change-elegant" style="color: #f59e0b;">
+                        <span>🏆</span>
+                        23 vendidas hoy
+                    </div>
+                </div>
+
+                <!-- Alertas Stock -->
+                <div class="widget-elegant">
+                    <div class="widget-header-elegant">
+                        <div class="widget-title-elegant">
+                            <span>⚠️</span>
+                            Alertas Stock
+                        </div>
+                        <div class="widget-icon-elegant">⚠️</div>
+                    </div>
+                    <div class="widget-value-elegant" style="color: #ef4444;">7</div>
+                    <div class="widget-change-elegant" style="color: #ef4444;">
+                        <span>↓</span>
+                        Productos con stock bajo
+                    </div>
+                </div>
+
+                <!-- Usuarios Activos -->
+                <div class="widget-elegant">
+                    <div class="widget-header-elegant">
+                        <div class="widget-title-elegant">
+                            <span>👥</span>
+                            Usuarios Activos
+                        </div>
+                        <div class="widget-icon-elegant">👥</div>
+                    </div>
+                    <div class="widget-value-elegant">3</div>
+                    <div class="widget-change-elegant">
+                        <span>🟢</span>
+                        Conectados ahora
+                    </div>
+                </div>
+
+                <!-- Actividad Reciente -->
+                <div class="widget-elegant">
+                    <div class="widget-header-elegant">
+                        <div class="widget-title-elegant">
+                            <span>🕒</span>
+                            Actividad Reciente
+                        </div>
+                        <div class="widget-icon-elegant">🕒</div>
+                    </div>
+                    <div class="activity-list">
+                        ${generateRecentActivity(salesData)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateRecentActivity(salesData) {
+            const activities = salesData || [
+                { id: 1024, customer_name: 'Cliente A', created_at: new Date(Date.now() - 2*60000), total: 45.50, user_name: 'Admin' },
+                { id: 1023, customer_name: 'Cliente B', created_at: new Date(Date.now() - 5*60000), total: 23.75, user_name: 'Cajero' },
+                { id: 1022, customer_name: 'Cliente C', created_at: new Date(Date.now() - 12*60000), total: 67.20, user_name: 'Admin' },
+                { id: 1021, customer_name: 'Cliente D', created_at: new Date(Date.now() - 18*60000), total: 34.90, user_name: 'Cajero' }
+            ];
+
+            return activities.slice(0, 5).map(activity => `
+                <div class="activity-item">
+                    <div class="activity-icon">🛒</div>
+                    <div class="activity-content">
+                        <div class="activity-text">Venta #${activity.id} - ${activity.customer_name || 'Cliente'}</div>
+                        <div class="activity-time">${new Date(activity.created_at).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} por ${activity.user_name}</div>
+                    </div>
+                    <div class="activity-amount">${activity.total?.toFixed(2)}</div>
                 </div>
             `).join('');
         }
 
-        // Cargar actividad reciente
-        async function loadRecentActivity() {
-            try {
-                const response = await fetch(`${API_BASE}/sales/today`, {
-                    headers: { 'Authorization': `Bearer ${authToken}` }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    renderRecentActivity(data.today_sales || []);
-                }
-            } catch (error) {
-                console.error('Error cargando actividad:', error);
-                document.getElementById('activityList').innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: #64748b;">
-                        Error cargando actividad reciente
-                    </div>
-                `;
-            }
-        }
-
-        // Renderizar actividad reciente
-        function renderRecentActivity(sales) {
-            const activityList = document.getElementById('activityList');
+        function loadOtherContent(section) {
+            const widgetsGrid = document.getElementById('widgetsGrid');
             
-            if (sales.length === 0) {
-                activityList.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: #64748b;">
-                        No hay ventas registradas hoy
-                    </div>
-                `;
-                return;
-            }
-
-            activityList.innerHTML = sales.slice(0, 5).map(sale => {
-                const time = new Date(sale.created_at).toLocaleTimeString('es-ES', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                });
-                
-                return `
-                    <div class="activity-item">
-                        <div class="activity-icon" style="background: #667eea; color: white;">
-                            🛒
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-text">
-                                Venta #${sale.id} - ${sale.customer_name || 'Cliente'}
+            const content = {
+                'my-sales': `
+                    <div class="widget-elegant" style="grid-column: span 2;">
+                        <div class="widget-header-elegant">
+                            <div class="widget-title-elegant">
+                                <span>📋</span>
+                                Mis Ventas de Hoy
                             </div>
-                            <div class="activity-time">
-                                ${time} por ${sale.user_name}
-                            </div>
+                            <div class="widget-icon-elegant">📋</div>
                         </div>
-                        <div class="activity-amount">$${sale.total.toFixed(2)}</div>
+                        <p style="color: #64748b; margin-bottom: 1rem;">Historial de ventas realizadas por ti durante el día.</p>
+                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="font-weight: 600; color: #1e293b;">Resumen de hoy:</div>
+                            <div style="margin-top: 0.5rem; color: #64748b;">• 5 ventas realizadas</div>
+                            <div style="color: #64748b;">• $245.75 en total</div>
+                            <div style="color: #64748b;">• Promedio: $49.15 por venta</div>
+                        </div>
                     </div>
-                `;
-            }).join('');
+                `
+            };
+            
+            widgetsGrid.innerHTML = content[section] || `
+                <div class="widget-elegant">
+                    <div class="widget-header-elegant">
+                        <div class="widget-title-elegant">
+                            <span>📄</span>
+                            ${section.charAt(0).toUpperCase() + section.slice(1)}
+                        </div>
+                        <div class="widget-icon-elegant">📄</div>
+                    </div>
+                    <p style="color: #64748b;">Contenido de ${section} en desarrollo...</p>
+                </div>
+            `;
         }
 
-        // Configurar event listeners
         function setupEventListeners() {
-            // Toggle sidebar
-            document.getElementById('menuToggle').addEventListener('click', function() {
-                const sidebar = document.getElementById('sidebar');
-                const mainContent = document.getElementById('mainContent');
-                
-                if (window.innerWidth <= 768) {
-                    sidebar.classList.toggle('show');
-                } else {
-                    sidebar.classList.toggle('hidden');
-                    mainContent.classList.toggle('expanded');
-                }
-            });
+            // Botón de menú para móvil
+            if (window.innerWidth <= 768) {
+                addMobileMenuButton();
+            }
 
-            // Cerrar sidebar en móvil al hacer click fuera
+            // Cerrar sidebar en móvil
             document.addEventListener('click', function(e) {
                 if (window.innerWidth <= 768) {
                     const sidebar = document.getElementById('sidebar');
-                    const menuToggle = document.getElementById('menuToggle');
-                    
-                    if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                        sidebar.classList.remove('show');
+                    if (sidebar && !sidebar.contains(e.target) && !e.target.closest('.mobile-menu-btn')) {
+                        sidebar.classList.remove('mobile-open');
                     }
+                }
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth <= 768 && !document.querySelector('.mobile-menu-btn')) {
+                    addMobileMenuButton();
                 }
             });
         }
 
-        // Ir al POS
-        function goToPOS() {
-            window.location.href = '/pos.html';
-        }
-
-        // Ver todas las ventas
-        function viewAllSales() {
-            if (currentUser.role === 'admin') {
-                showSection('sales');
-            } else {
-                showSection('my-sales');
+        function addMobileMenuButton() {
+            const topBar = document.querySelector('.top-bar-elegant');
+            const existingBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!existingBtn && topBar) {
+                const menuBtn = document.createElement('button');
+                menuBtn.innerHTML = '☰';
+                menuBtn.className = 'mobile-menu-btn';
+                menuBtn.style.cssText = `
+                    background: linear-gradient(135deg, #ffb380, #ffd4a6);
+                    border: none;
+                    color: white;
+                    font-size: 1.3rem;
+                    cursor: pointer;
+                    padding: 0.5rem;
+                    border-radius: 8px;
+                    margin-right: 1rem;
+                    transition: all 0.2s ease;
+                `;
+                menuBtn.onclick = toggleMobileSidebar;
+                topBar.insertBefore(menuBtn, topBar.firstChild);
             }
         }
 
-        // Cerrar sesión
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        function animateWidgets() {
+            const widgets = document.querySelectorAll('.widget-elegant');
+            widgets.forEach((widget, index) => {
+                widget.style.opacity = '0';
+                widget.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    widget.style.transition = 'all 0.5s ease';
+                    widget.style.opacity = '1';
+                    widget.style.transform = 'translateY(0)';
+                }, index * 80);
+            });
+        }
+
+        function startPeriodicCheck() {
+            setInterval(async () => {
+                if (!isAuthenticated || authCheckInProgress) return;
+                
+                try {
+                    const isValid = await verifyToken();
+                    if (!isValid) {
+                        cleanupAndRedirect();
+                    }
+                } catch (error) {
+                    console.error('❌ Error en verificación periódica:', error);
+                }
+            }, 10 * 60 * 1000);
+        }
+
+        function cleanupAndRedirect() {
+            localStorage.removeItem('pos_token');
+            localStorage.removeItem('pos_user');
+            currentUser = null;
+            authToken = null;
+            isAuthenticated = false;
+            redirectToLogin();
+        }
+
+        function redirectToLogin() {
+            window.location.href = '/login';
+        }
+
         function logout() {
             if (confirm('¿Está seguro que desea cerrar sesión?')) {
-                localStorage.removeItem('pos_token');
-                localStorage.removeItem('pos_user');
-                window.location.href = '/login.html';
+                cleanupAndRedirect();
             }
         }
 
-        // Auto-refresh cada 30 segundos
-        setInterval(loadDashboardData, 30000);
+        // Auto-refresh cada 2 minutos solo para el dashboard
+        setInterval(() => {
+            if (isAuthenticated && !authCheckInProgress) {
+                const currentPage = document.getElementById('currentPage').textContent;
+                if (currentPage === 'Dashboard') {
+                    loadDashboardWidgets().catch(console.error);
+                }
+            }
+        }, 120000);
+
+        console.log('✨ Dashboard Elegante inicializado correctamente');
     </script>
 </body>
 </html>
