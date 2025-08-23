@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard POS - Sidebar Elegante</title>
+    <title>Dashboard POS - Moderno</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -12,20 +13,19 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fafbfc;
+            color: #1a1d29;
             overflow-x: hidden;
         }
 
-        /* LOADING Y ERROR SCREENS */
         .security-loading {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #ffb380 0%, #ffd4a6 100%);
+            background: linear-gradient(135deg, #ff8a65 0%, #ff7043 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -37,8 +37,8 @@
         .security-spinner {
             width: 50px;
             height: 50px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid white;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 1rem;
@@ -49,156 +49,132 @@
             100% { transform: rotate(360deg); }
         }
 
-        .error-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            color: white;
-            text-align: center;
-            padding: 2rem;
-        }
-
         .app-container {
             display: flex;
             min-height: 100vh;
         }
 
-        /* SIDEBAR ELEGANTE Y COMPACTO */
-        .sidebar-elegant {
-            width: 260px;
-            background: linear-gradient(180deg, #ffb380 0%, #ff9f66 100%);
+        .sidebar-modern {
+            width: 280px;
+            background: #ffffff;
             position: fixed;
             height: 100vh;
             left: 0;
             top: 0;
             z-index: 1000;
-            overflow-y: auto;
-            overflow-x: hidden;
-            box-shadow: 4px 0 20px rgba(255, 179, 128, 0.15);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
+            border-right: 1px solid #e8eaed;
+            transition: transform 0.3s ease;
         }
 
-        /* HEADER COMPACTO */
-        .sidebar-header-compact {
-            padding: 1.5rem 1.25rem 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        .sidebar-modern.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid #e8eaed;
+        }
+
+        .sidebar-logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            margin-bottom: 1rem;
         }
 
-        .sidebar-logo-compact {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #ff8a65, #ff7043);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            color: white;
-            backdrop-filter: blur(10px);
-            flex-shrink: 0;
-        }
-
-        .sidebar-brand-compact {
+            font-size: 1.4rem;
             color: white;
         }
 
-        .sidebar-title-compact {
-            font-size: 1.1rem;
+        .brand-text h2 {
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 0.125rem;
+            color: #1a1d29;
+            margin-bottom: 0.25rem;
         }
 
-        .sidebar-subtitle-compact {
-            font-size: 0.75rem;
-            opacity: 0.85;
+        .brand-text p {
+            font-size: 0.8rem;
+            color: #6b7280;
         }
 
-        /* INFORMACIÓN DE USUARIO COMPACTA */
-        .user-info-compact {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        .user-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
 
-        .user-avatar-compact {
+        .user-avatar {
             width: 36px;
             height: 36px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #ff8a65, #ff7043);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.1rem;
             color: white;
-            flex-shrink: 0;
         }
 
-        .user-details-compact {
-            min-width: 0;
-            flex: 1;
-        }
-
-        .user-name-compact {
-            font-weight: 600;
-            color: white;
+        .user-details h4 {
             font-size: 0.9rem;
+            font-weight: 600;
+            color: #1a1d29;
             margin-bottom: 0.25rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .user-role-compact {
+        .user-role {
             font-size: 0.7rem;
-            background: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #ff8a65, #ff7043);
             color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
-            display: inline-block;
-            backdrop-filter: blur(5px);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 500;
         }
 
-        /* NAVEGACIÓN ELEGANTE */
-        .sidebar-nav-elegant {
-            padding: 0.75rem 0;
+        .sidebar-nav {
+            padding: 1.5rem 0;
             flex: 1;
+            overflow-y: auto;
         }
 
-        .nav-section-elegant {
-            margin-bottom: 1.5rem;
+        .nav-section {
+            margin-bottom: 2rem;
+            padding: 0 1.5rem;
         }
 
-        .nav-section-title-elegant {
-            padding: 0.5rem 1.25rem 0.75rem;
-            font-size: 0.65rem;
+        .nav-section-title {
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.08em;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
         }
 
-        .nav-item-elegant {
+        .nav-item {
             display: flex;
             align-items: center;
-            padding: 0.75rem 1.25rem;
-            color: rgba(255, 255, 255, 0.9);
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.25rem;
+            color: #6b7280;
             text-decoration: none;
+            border-radius: 12px;
             transition: all 0.2s ease;
             cursor: pointer;
             border: none;
@@ -207,415 +183,523 @@
             text-align: left;
             font-size: 0.9rem;
             position: relative;
-            margin: 0.125rem 0;
         }
 
-        .nav-item-elegant::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 0;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 0 2px 2px 0;
-            transition: height 0.2s ease;
+        .nav-item:hover {
+            background: #f3f4f6;
+            color: #ff7043;
+            transform: translateX(4px);
         }
 
-        .nav-item-elegant:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding-left: 1.5rem;
+        .nav-item.active {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            color: #ff7043;
+            box-shadow: 0 2px 8px rgba(255, 112, 67, 0.15);
         }
 
-        .nav-item-elegant:hover::before {
-            height: 20px;
-        }
-
-        .nav-item-elegant.active {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            padding-left: 1.5rem;
-        }
-
-        .nav-item-elegant.active::before {
-            height: 24px;
-        }
-
-        .nav-item-icon-elegant {
-            font-size: 1.1rem;
-            width: 20px;
+        .nav-item-icon {
+            font-size: 1.2rem;
+            width: 24px;
             text-align: center;
-            margin-right: 0.75rem;
-            flex-shrink: 0;
+            margin-right: 1rem;
         }
 
-        .nav-item-text-elegant {
+        .nav-item-text {
             font-weight: 500;
             flex: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .nav-badge-elegant {
-            background: rgba(239, 68, 68, 0.9);
+        .nav-badge {
+            background: #ff7043;
             color: white;
             font-size: 0.65rem;
             font-weight: 600;
-            padding: 0.15rem 0.4rem;
-            border-radius: 8px;
-            min-width: 18px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        /* FOOTER COMPACTO */
-        .sidebar-footer-compact {
-            padding: 1rem 1.25rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            margin-top: auto;
-        }
-
-        .logout-btn-compact {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.75rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 10px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #e8eaed;
+        }
+
+        .logout-btn {
+            width: 100%;
+            background: #f8f9fa;
+            color: #6b7280;
+            border: 1px solid #e8eaed;
+            padding: 0.875rem;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 500;
         }
 
-        .logout-btn-compact:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        .logout-btn:hover {
+            background: #fee2e2;
+            color: #dc2626;
+            border-color: #fecaca;
         }
 
-        /* MAIN CONTENT */
-        .main-content-elegant {
+        .main-content {
             flex: 1;
-            margin-left: 260px;
+            margin-left: 280px;
             min-height: 100vh;
-            background: #f1f5f9;
+            background: #fafbfc;
+            transition: margin-left 0.3s ease;
         }
 
-        .top-bar-elegant {
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        .top-bar {
             background: white;
-            padding: 1.25rem 2rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e8eaed;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-left: 3px solid #ffb380;
         }
 
-        .page-title-elegant {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1e293b;
+        .top-bar-left {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
         }
 
-        .breadcrumb-elegant {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #64748b;
-            font-size: 0.85rem;
-            background: #f8fafc;
-            padding: 0.5rem 0.75rem;
+        .sidebar-toggle {
+            background: linear-gradient(135deg, #ff8a65, #ff7043);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.6rem;
             border-radius: 8px;
+            transition: all 0.2s ease;
         }
 
-        .content-area-elegant {
-            padding: 1.5rem 2rem;
+        .sidebar-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(255, 112, 67, 0.3);
         }
 
-        /* WIDGETS MEJORADOS */
-        .widgets-grid-elegant {
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a1d29;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            font-size: 0.85rem;
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .content-area {
+            padding: 2rem;
+        }
+
+        .widgets-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
         }
 
-        .widget-elegant {
+        .widget-card {
             background: white;
             border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255, 179, 128, 0.1);
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e8eaed;
+            transition: all 0.3s ease;
+            min-height: fit-content;
         }
 
-        .widget-elegant::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #ffb380, #ffd4a6);
-        }
-
-        .widget-elegant:hover {
+        .widget-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 179, 128, 0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .widget-header-elegant {
+        .chart-widget {
+            grid-row: span 2;
+            min-height: 500px;
+        }
+
+        .widget-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .widget-title-elegant {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .widget-icon-elegant {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .widget-title {
             font-size: 1.1rem;
-            background: linear-gradient(135deg, #ffb380, #ffd4a6);
-            color: white;
-            box-shadow: 0 2px 8px rgba(255, 179, 128, 0.3);
+            font-weight: 700;
+            color: #1a1d29;
         }
 
-        .widget-value-elegant {
-            font-size: 1.8rem;
+        .chart-subtitle {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            min-height: 250px;
+        }
+
+        .pie-chart-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            margin-bottom: 1rem;
+            min-height: 150px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-value {
+            font-size: 2rem;
             font-weight: 700;
-            color: #1e293b;
+            color: #1a1d29;
             margin-bottom: 0.5rem;
         }
 
-        .widget-change-elegant {
-            font-size: 0.75rem;
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             gap: 0.25rem;
-            color: #10b981;
         }
 
-        /* RESPONSIVE */
+        .stat-change.positive {
+            color: #059669;
+        }
+
+        .stat-change.negative {
+            color: #dc2626;
+        }
+
+        .transactions-widget {
+            grid-column: span 2;
+            margin-top: 2rem;
+        }
+
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transactions-table th,
+        .transactions-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .transactions-table th {
+            font-weight: 600;
+            color: #374151;
+            background: #f9fafb;
+            font-size: 0.85rem;
+        }
+
+        .transactions-table td {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+            color: #1a1d29;
+        }
+
+        .transaction-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #ff8a65, #ff7043);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 112, 67, 0.3);
+        }
+
+        @media (max-width: 1200px) {
+            .widgets-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .chart-widget {
+                grid-row: span 1;
+                min-height: 400px;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+        }
+
         @media (max-width: 768px) {
-            .sidebar-elegant {
-                width: 250px;
+            .sidebar-modern {
+                width: 260px;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
             }
 
-            .sidebar-elegant.mobile-open {
+            .sidebar-modern.mobile-open {
                 transform: translateX(0);
             }
 
-            .main-content-elegant {
-                margin-left: 0;
+            .sidebar-modern.collapsed {
+                transform: translateX(-100%);
             }
 
-            .top-bar-elegant {
+            .main-content {
+                margin-left: 0 !important;
+            }
+
+            .main-content.expanded {
+                margin-left: 0 !important;
+            }
+
+            .top-bar {
+                padding: 1rem;
+            }
+            
+            .top-bar-left {
+                gap: 0.5rem;
+            }
+            
+            .page-title {
+                font-size: 1.25rem;
+            }
+
+            .content-area {
                 padding: 1rem;
             }
 
-            .content-area-elegant {
-                padding: 1rem;
-            }
-
-            .widgets-grid-elegant {
+            .widgets-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .widget-card {
+                padding: 1.5rem;
+                border-radius: 12px;
+            }
+            
+            .chart-widget {
+                min-height: 350px;
+            }
+            
+            .chart-container {
+                height: 200px;
+                min-height: 180px;
+            }
+            
+            .pie-chart-container {
+                height: 150px;
+                min-height: 120px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .widget-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .action-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .sidebar-toggle {
+                display: none;
+            }
+            
+            .transactions-table {
+                font-size: 0.8rem;
+            }
+            
+            .transactions-table th,
+            .transactions-table td {
+                padding: 0.75rem 0.5rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .breadcrumb {
+                display: none;
             }
         }
 
-        /* LOADING STATES */
+        @media (max-width: 480px) {
+            .content-area {
+                padding: 0.75rem;
+            }
+            
+            .widget-card {
+                padding: 1rem;
+            }
+            
+            .chart-container {
+                height: 180px;
+            }
+            
+            .pie-chart-container {
+                height: 120px;
+            }
+            
+            .transactions-table {
+                font-size: 0.75rem;
+            }
+            
+            .transactions-table th,
+            .transactions-table td {
+                padding: 0.5rem 0.25rem;
+            }
+        }
+
         .loading {
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 3rem;
-            color: #64748b;
-            text-align: center;
+            color: #6b7280;
         }
 
         .spinner {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #e2e8f0;
-            border-top: 2px solid #ffb380;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #ff7043;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 0.5rem;
         }
-
-        /* ESTADOS ESPECIALES */
-        .quick-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 1rem;
-        }
-
-        .quick-stat {
-            text-align: center;
-            padding: 1rem 0.75rem;
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .quick-stat-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #1e293b;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .quick-stat-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            font-weight: 500;
-        }
-
-        .activity-list {
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        .activity-item {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 0.75rem;
-            font-size: 0.85rem;
-            background: linear-gradient(135deg, #ffb380, #ffd4a6);
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .activity-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .activity-text {
-            font-weight: 500;
-            color: #1e293b;
-            margin-bottom: 0.25rem;
-            font-size: 0.85rem;
-        }
-
-        .activity-time {
-            font-size: 0.7rem;
-            color: #64748b;
-        }
-
-        .activity-amount {
-            font-weight: 600;
-            color: #10b981;
-            font-size: 0.85rem;
-            flex-shrink: 0;
-        }
     </style>
 </head>
 <body>
-    <!-- Security Loading Screen -->
     <div class="security-loading" id="securityLoading">
         <div class="security-spinner"></div>
         <h2>🔐 Verificando Acceso</h2>
         <p>Autenticando usuario...</p>
     </div>
 
-    <!-- Error Screen -->
-    <div class="error-screen" id="errorScreen">
-        <div style="font-size: 4rem; margin-bottom: 1rem;">🚫</div>
-        <h2 style="font-size: 2rem; margin-bottom: 1rem; font-weight: 700;">Acceso Denegado</h2>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;" id="errorMessage">No tienes permisos para acceder</p>
-        <button style="background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255, 255, 255, 0.3); color: white; padding: 1rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onclick="redirectToLogin()">Ir al Login</button>
-    </div>
-
-    <!-- Main App Container -->
     <div class="app-container" id="appContainer" style="display: none;">
-        <!-- SIDEBAR ELEGANTE -->
-        <nav class="sidebar-elegant" id="sidebar">
-            <!-- Header Compacto -->
-            <div class="sidebar-header-compact">
-                <div class="sidebar-logo-compact">🏪</div>
-                <div class="sidebar-brand-compact">
-                    <div class="sidebar-title-compact">Sistema POS</div>
-                    <div class="sidebar-subtitle-compact">Punto de Venta</div>
+        <nav class="sidebar-modern" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="logo-icon">🏪</div>
+                    <div class="brand-text">
+                        <h2>Sistema POS</h2>
+                        <p>Punto de Venta</p>
+                    </div>
+                </div>
+                
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">👤</div>
+                    <div class="user-details">
+                        <h4 id="userName">Cargando...</h4>
+                        <span class="user-role" id="userRole">USUARIO</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Usuario Compacto -->
-            <div class="user-info-compact">
-                <div class="user-avatar-compact" id="userAvatar">👤</div>
-                <div class="user-details-compact">
-                    <div class="user-name-compact" id="userName">Cargando...</div>
-                    <span class="user-role-compact" id="userRole">USUARIO</span>
-                </div>
-            </div>
-
-            <!-- Navegación -->
-            <div class="sidebar-nav-elegant" id="sidebarNav">
+            <div class="sidebar-nav" id="sidebarNav">
                 <!-- Se carga dinámicamente -->
             </div>
 
-            <!-- Footer -->
-            <div class="sidebar-footer-compact">
-                <button class="logout-btn-compact" onclick="logout()">
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
                     <span>🚪</span>
                     Cerrar Sesión
                 </button>
             </div>
         </nav>
 
-        <!-- MAIN CONTENT -->
-        <main class="main-content-elegant">
-            <div class="top-bar-elegant">
-                <h1 class="page-title-elegant" id="pageTitle">
-                    <span>📊</span>
-                    Dashboard
-                </h1>
-                <div class="breadcrumb-elegant">
+        <main class="main-content" id="mainContent">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <button class="sidebar-toggle" onclick="toggleSidebar()">
+                        <span id="toggleIcon">☰</span>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">
+                        <span>📊</span>
+                        Dashboard
+                    </h1>
+                </div>
+                <div class="breadcrumb">
                     <span>🏠</span>
                     <span>Sistema POS</span>
                     <span>›</span>
@@ -623,28 +707,124 @@
                 </div>
             </div>
 
-            <div class="content-area-elegant">
-                <div class="widgets-grid-elegant" id="widgetsGrid">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        Cargando dashboard...
+            <div class="content-area">
+                <div class="widgets-grid">
+                    <div class="widget-card chart-widget">
+                        <div class="widget-header">
+                            <div>
+                                <h3 class="widget-title">VENTAS MENSUALES</h3>
+                                <p class="chart-subtitle">Análisis de ventas por mes durante el año</p>
+                            </div>
+                            <button class="action-btn">Ver detalles</button>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="supplyDemandChart"></canvas>
+                        </div>
                     </div>
+
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <h3 class="widget-title">PRODUCTOS POR CATEGORÍA</h3>
+                        </div>
+                        <div class="pie-chart-container">
+                            <canvas id="distributionChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="stat-value">$1,247.50 <span style="font-size: 1rem; color: #6b7280;">BOB</span></div>
+                        <div class="stat-label">VENTAS DE HOY</div>
+                        <div class="stat-change positive">
+                            <span>↗</span>
+                            +12.3% desde ayer
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="widget-card">
+                        <div class="stat-value">$1,247</div>
+                        <div class="stat-label">VENTAS DEL MES</div>
+                        <div class="stat-change positive">
+                            <span>↗</span>
+                            +23% vs mes anterior
+                        </div>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">PRODUCTOS ACTIVOS</div>
+                        <div class="stat-change positive">
+                            <span>↗</span>
+                            En inventario
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget-card transactions-widget">
+                    <div class="widget-header">
+                        <h3 class="widget-title">VENTAS RECIENTES</h3>
+                        <button class="action-btn">Ver todas</button>
+                    </div>
+                    
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>CLIENTE</th>
+                                <th>FECHA</th>
+                                <th>TOTAL</th>
+                                <th>TIPO</th>
+                                <th>MESA</th>
+                                <th>ID VENTA</th>
+                                <th>DETALLES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTable">
+                            <tr>
+                                <td>Juan Pérez</td>
+                                <td>2025-08-23</td>
+                                <td class="transaction-amount">$34.00</td>
+                                <td><span class="transaction-status status-completed">Para llevar</span></td>
+                                <td>-</td>
+                                <td>#1007</td>
+                                <td><button style="background: none; border: none; color: #ff7043; cursor: pointer;">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td>María González</td>
+                                <td>2025-08-23</td>
+                                <td class="transaction-amount">$41.00</td>
+                                <td><span class="transaction-status status-pending">Mesa</span></td>
+                                <td>5</td>
+                                <td>#1006</td>
+                                <td><button style="background: none; border: none; color: #ff7043; cursor: pointer;">👁️</button></td>
+                            </tr>
+                            <tr>
+                                <td>SIN NOMBRE</td>
+                                <td>2025-08-21</td>
+                                <td class="transaction-amount">$5.00</td>
+                                <td><span class="transaction-status status-completed">Para llevar</span></td>
+                                <td>-</td>
+                                <td>#1005</td>
+                                <td><button style="background: none; border: none; color: #ff7043; cursor: pointer;">👁️</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        // ===== VARIABLES GLOBALES =====
         let currentUser = null;
         let authToken = localStorage.getItem('pos_token');
         const API_BASE = '/api';
         let isAuthenticated = false;
         let authCheckInProgress = false;
+        let supplyDemandChart = null;
+        let distributionChart = null;
 
-        // ===== INICIALIZACIÓN =====
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎨 Iniciando Dashboard Elegante...');
+            console.log('🎨 Iniciando Dashboard Moderno...');
             initializeDashboard();
         });
 
@@ -704,6 +884,7 @@
             
             setupUserInterface();
             await loadDashboardData();
+            initializeCharts();
             setupEventListeners();
             startPeriodicCheck();
         }
@@ -728,66 +909,66 @@
             
             if (currentUser.role === 'admin') {
                 sidebarNav.innerHTML = `
-                    <div class="nav-section-elegant">
-                        <div class="nav-section-title-elegant">Principal</div>
-                        <button class="nav-item-elegant active" onclick="navigateTo('dashboard', 'Dashboard', '📊')">
-                            <span class="nav-item-icon-elegant">📊</span>
-                            <span class="nav-item-text-elegant">Dashboard</span>
+                    <div class="nav-section">
+                        <div class="nav-section-title">Principal</div>
+                        <button class="nav-item active" onclick="navigateTo('dashboard', 'Dashboard', '📊')">
+                            <span class="nav-item-icon">📊</span>
+                            <span class="nav-item-text">Dashboard</span>
                         </button>
-                        <button class="nav-item-elegant" onclick="navigateTo('pos', 'Punto de Venta', '🛒')">
-                            <span class="nav-item-icon-elegant">🛒</span>
-                            <span class="nav-item-text-elegant">Punto de Venta</span>
-                            <span class="nav-badge-elegant">3</span>
-                        </button>
-                    </div>
-                    
-                    <div class="nav-section-elegant">
-                        <div class="nav-section-title-elegant">Inventario</div>
-                        <button class="nav-item-elegant" onclick="navigateTo('products', 'Productos', '📦')">
-                            <span class="nav-item-icon-elegant">📦</span>
-                            <span class="nav-item-text-elegant">Productos</span>
-                        </button>
-                        <button class="nav-item-elegant" onclick="navigateTo('categories', 'Categorías', '🏷️')">
-                            <span class="nav-item-icon-elegant">🏷️</span>
-                            <span class="nav-item-text-elegant">Categorías</span>
+                        <button class="nav-item" onclick="navigateTo('pos', 'Punto de Venta', '🛒')">
+                            <span class="nav-item-icon">🛒</span>
+                            <span class="nav-item-text">Punto de Venta</span>
+                            <span class="nav-badge">3</span>
                         </button>
                     </div>
                     
-                    <div class="nav-section-elegant">
-                        <div class="nav-section-title-elegant">Reportes</div>
-                        <button class="nav-item-elegant" onclick="navigateTo('reports', 'Reportes', '📈')">
-                            <span class="nav-item-icon-elegant">📈</span>
-                            <span class="nav-item-text-elegant">Reportes</span>
+                    <div class="nav-section">
+                        <div class="nav-section-title">Inventario</div>
+                        <button class="nav-item" onclick="navigateTo('products', 'Productos', '📦')">
+                            <span class="nav-item-icon">📦</span>
+                            <span class="nav-item-text">Productos</span>
+                        </button>
+                        <button class="nav-item" onclick="navigateTo('categories', 'Categorías', '🏷️')">
+                            <span class="nav-item-icon">🏷️</span>
+                            <span class="nav-item-text">Categorías</span>
                         </button>
                     </div>
                     
-                    <div class="nav-section-elegant">
-                        <div class="nav-section-title-elegant">Admin</div>
-                        <button class="nav-item-elegant" onclick="navigateTo('create-user', 'Crear Usuario', '➕')">
-                            <span class="nav-item-icon-elegant">➕</span>
-                            <span class="nav-item-text-elegant">Crear Usuario</span>
+                    <div class="nav-section">
+                        <div class="nav-section-title">Reportes</div>
+                        <button class="nav-item" onclick="navigateTo('reports', 'Reportes', '📈')">
+                            <span class="nav-item-icon">📈</span>
+                            <span class="nav-item-text">Reportes</span>
+                        </button>
+                    </div>
+                    
+                    <div class="nav-section">
+                        <div class="nav-section-title">Admin</div>
+                        <button class="nav-item" onclick="navigateTo('create-user', 'Crear Usuario', '➕')">
+                            <span class="nav-item-icon">➕</span>
+                            <span class="nav-item-text">Crear Usuario</span>
                         </button>
                     </div>
                 `;
             } else {
                 sidebarNav.innerHTML = `
-                    <div class="nav-section-elegant">
-                        <div class="nav-section-title-elegant">Principal</div>
-                        <button class="nav-item-elegant active" onclick="navigateTo('dashboard', 'Dashboard', '📊')">
-                            <span class="nav-item-icon-elegant">📊</span>
-                            <span class="nav-item-text-elegant">Dashboard</span>
+                    <div class="nav-section">
+                        <div class="nav-section-title">Principal</div>
+                        <button class="nav-item active" onclick="navigateTo('dashboard', 'Dashboard', '📊')">
+                            <span class="nav-item-icon">📊</span>
+                            <span class="nav-item-text">Dashboard</span>
                         </button>
-                        <button class="nav-item-elegant" onclick="navigateTo('pos', 'Punto de Venta', '🛒')">
-                            <span class="nav-item-icon-elegant">🛒</span>
-                            <span class="nav-item-text-elegant">Punto de Venta</span>
+                        <button class="nav-item" onclick="navigateTo('pos', 'Punto de Venta', '🛒')">
+                            <span class="nav-item-icon">🛒</span>
+                            <span class="nav-item-text">Punto de Venta</span>
                         </button>
                     </div>
                     
-                    <div class="nav-section-elegant">
-                        <div class="nav-section-title-elegant">Mis Ventas</div>
-                        <button class="nav-item-elegant" onclick="navigateTo('my-sales', 'Mis Ventas', '📋')">
-                            <span class="nav-item-icon-elegant">📋</span>
-                            <span class="nav-item-text-elegant">Mis Ventas</span>
+                    <div class="nav-section">
+                        <div class="nav-section-title">Mis Ventas</div>
+                        <button class="nav-item" onclick="navigateTo('my-sales', 'Mis Ventas', '📋')">
+                            <span class="nav-item-icon">📋</span>
+                            <span class="nav-item-text">Mis Ventas</span>
                         </button>
                     </div>
                 `;
@@ -800,18 +981,15 @@
                 return;
             }
 
-            // Actualizar estados activos
-            document.querySelectorAll('.nav-item-elegant').forEach(item => {
+            document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             
-            event.target.closest('.nav-item-elegant').classList.add('active');
+            event.target.closest('.nav-item').classList.add('active');
             
-            // Actualizar título
             document.getElementById('pageTitle').innerHTML = `${icon} ${title}`;
             document.getElementById('currentPage').textContent = title;
             
-            // Rutas de navegación
             const routes = {
                 'dashboard': '/dashboard',
                 'pos': '/pos',
@@ -824,33 +1002,106 @@
             
             if (routes[section] && routes[section] !== '/dashboard') {
                 window.location.href = routes[section];
-            } else {
-                loadSectionContent(section);
             }
         }
 
-        async function loadSectionContent(section) {
-            const widgetsGrid = document.getElementById('widgetsGrid');
-            widgetsGrid.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando...</div>';
-            
-            await new Promise(resolve => setTimeout(resolve, 500));
-            
-            if (section === 'dashboard') {
-                await loadDashboardWidgets();
-            } else {
-                loadOtherContent(section);
-            }
+        function initializeCharts() {
+            const ctx1 = document.getElementById('supplyDemandChart').getContext('2d');
+            supplyDemandChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    datasets: [{
+                        label: 'Ventas ($)',
+                        data: [1250, 1890, 2340, 1980, 2100, 2450, 2180, 2890, 2340, 2100, 2650, 2890],
+                        backgroundColor: '#ff8a65',
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f3f4f6',
+                                borderDash: [2, 2]
+                            },
+                            ticks: {
+                                color: '#6b7280',
+                                font: {
+                                    size: 12
+                                },
+                                callback: function(value) {
+                                    return '$' + value;
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#6b7280',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        bar: {
+                            borderWidth: 0
+                        }
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('distributionChart').getContext('2d');
+            distributionChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Comidas', 'Bebidas', 'Postres'],
+                    datasets: [{
+                        data: [45, 35, 20],
+                        backgroundColor: [
+                            '#ff8a65',
+                            '#64b5f6', 
+                            '#81c784'
+                        ],
+                        borderWidth: 0,
+                        cutout: '70%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: {
+                                    size: 12
+                                },
+                                color: '#6b7280'
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         async function loadDashboardData() {
-            await loadDashboardWidgets();
-        }
-
-        async function loadDashboardWidgets() {
-            const widgetsGrid = document.getElementById('widgetsGrid');
-            
             try {
-                // Intentar cargar datos reales
                 const dashboardResponse = await fetch(`${API_BASE}/reports/dashboard`, {
                     headers: { 'Authorization': `Bearer ${authToken}` }
                 }).catch(() => null);
@@ -872,212 +1123,139 @@
                     salesData = data.today_sales || [];
                 }
 
-                widgetsGrid.innerHTML = generateDashboardWidgets(dashboardData, salesData);
+                updateDashboardStats(dashboardData);
+                updateTransactionsTable(salesData);
 
             } catch (error) {
-                widgetsGrid.innerHTML = generateDashboardWidgets(null, null);
+                console.error('Error cargando datos:', error);
+                updateDashboardStats(null);
+                updateTransactionsTable(null);
             }
-
-            animateWidgets();
         }
 
-        function generateDashboardWidgets(dashboardData, salesData) {
+        function updateDashboardStats(dashboardData) {
             const today = dashboardData?.today || {};
             const thisMonth = dashboardData?.this_month || {};
-            
-            return `
-                <!-- Estadísticas Rápidas -->
-                <div class="widget-elegant" style="grid-column: span 2;">
-                    <div class="widget-header-elegant">
-                        <div class="widget-title-elegant">
-                            <span>📊</span>
-                            Estadísticas de Hoy
-                        </div>
-                        <div class="widget-icon-elegant">📊</div>
-                    </div>
-                    <div class="quick-stats-grid">
-                        <div class="quick-stat">
-                            <span class="quick-stat-value">${today.sales || 24}</span>
-                            <span class="quick-stat-label">Ventas</span>
-                        </div>
-                        <div class="quick-stat">
-                            <span class="quick-stat-value">${today.amount?.toFixed(2) || '1,450'}</span>
-                            <span class="quick-stat-label">Ingresos</span>
-                        </div>
-                        <div class="quick-stat">
-                            <span class="quick-stat-value">${today.average?.toFixed(2) || '60.42'}</span>
-                            <span class="quick-stat-label">Promedio</span>
-                        </div>
-                        <div class="quick-stat">
-                            <span class="quick-stat-value">156</span>
-                            <span class="quick-stat-label">Productos</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ventas del Mes -->
-                <div class="widget-elegant">
-                    <div class="widget-header-elegant">
-                        <div class="widget-title-elegant">
-                            <span>💰</span>
-                            Ventas del Mes
-                        </div>
-                        <div class="widget-icon-elegant">💰</div>
-                    </div>
-                    <div class="widget-value-elegant">${thisMonth.amount?.toFixed(2) || '12,840'}</div>
-                    <div class="widget-change-elegant">
-                        <span>↗</span>
-                        +15% vs mes anterior
-                    </div>
-                </div>
-
-                <!-- Producto Estrella -->
-                <div class="widget-elegant">
-                    <div class="widget-header-elegant">
-                        <div class="widget-title-elegant">
-                            <span>🔥</span>
-                            Producto Estrella
-                        </div>
-                        <div class="widget-icon-elegant">🔥</div>
-                    </div>
-                    <div class="widget-value-elegant">Pizza Margherita</div>
-                    <div class="widget-change-elegant" style="color: #f59e0b;">
-                        <span>🏆</span>
-                        23 vendidas hoy
-                    </div>
-                </div>
-
-                <!-- Alertas Stock -->
-                <div class="widget-elegant">
-                    <div class="widget-header-elegant">
-                        <div class="widget-title-elegant">
-                            <span>⚠️</span>
-                            Alertas Stock
-                        </div>
-                        <div class="widget-icon-elegant">⚠️</div>
-                    </div>
-                    <div class="widget-value-elegant" style="color: #ef4444;">7</div>
-                    <div class="widget-change-elegant" style="color: #ef4444;">
-                        <span>↓</span>
-                        Productos con stock bajo
-                    </div>
-                </div>
-
-                <!-- Usuarios Activos -->
-                <div class="widget-elegant">
-                    <div class="widget-header-elegant">
-                        <div class="widget-title-elegant">
-                            <span>👥</span>
-                            Usuarios Activos
-                        </div>
-                        <div class="widget-icon-elegant">👥</div>
-                    </div>
-                    <div class="widget-value-elegant">3</div>
-                    <div class="widget-change-elegant">
-                        <span>🟢</span>
-                        Conectados ahora
-                    </div>
-                </div>
-
-                <!-- Actividad Reciente -->
-                <div class="widget-elegant">
-                    <div class="widget-header-elegant">
-                        <div class="widget-title-elegant">
-                            <span>🕒</span>
-                            Actividad Reciente
-                        </div>
-                        <div class="widget-icon-elegant">🕒</div>
-                    </div>
-                    <div class="activity-list">
-                        ${generateRecentActivity(salesData)}
-                    </div>
-                </div>
-            `;
         }
 
-        function generateRecentActivity(salesData) {
-            const activities = salesData || [
-                { id: 1024, customer_name: 'Cliente A', created_at: new Date(Date.now() - 2*60000), total: 45.50, user_name: 'Admin' },
-                { id: 1023, customer_name: 'Cliente B', created_at: new Date(Date.now() - 5*60000), total: 23.75, user_name: 'Cajero' },
-                { id: 1022, customer_name: 'Cliente C', created_at: new Date(Date.now() - 12*60000), total: 67.20, user_name: 'Admin' },
-                { id: 1021, customer_name: 'Cliente D', created_at: new Date(Date.now() - 18*60000), total: 34.90, user_name: 'Cajero' }
-            ];
-
-            return activities.slice(0, 5).map(activity => `
-                <div class="activity-item">
-                    <div class="activity-icon">🛒</div>
-                    <div class="activity-content">
-                        <div class="activity-text">Venta #${activity.id} - ${activity.customer_name || 'Cliente'}</div>
-                        <div class="activity-time">${new Date(activity.created_at).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} por ${activity.user_name}</div>
-                    </div>
-                    <div class="activity-amount">${activity.total?.toFixed(2)}</div>
-                </div>
-            `).join('');
+        function updateTransactionsTable(salesData) {
+            const tableBody = document.getElementById('transactionsTable');
+            
+            if (salesData && salesData.length > 0) {
+                tableBody.innerHTML = salesData.slice(0, 5).map(sale => `
+                    <tr>
+                        <td>${sale.customer_name || 'SIN NOMBRE'}</td>
+                        <td>${new Date(sale.created_at).toLocaleDateString('es-ES')}</td>
+                        <td class="transaction-amount">${sale.total.toFixed(2)}</td>
+                        <td><span class="transaction-status ${sale.order_type === 'takeaway' ? 'status-completed' : 'status-pending'}">${sale.order_type === 'takeaway' ? 'Para llevar' : 'Mesa'}</span></td>
+                        <td>${sale.table_number || '-'}</td>
+                        <td>#${sale.id}</td>
+                        <td><button style="background: none; border: none; color: #ff7043; cursor: pointer;">👁️</button></td>
+                    </tr>
+                `).join('');
+            }
         }
 
-        function loadOtherContent(section) {
-            const widgetsGrid = document.getElementById('widgetsGrid');
+        function toggleSidebar() {
+            if (window.innerWidth <= 768) {
+                toggleMobileSidebar();
+                return;
+            }
+
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const toggleIcon = document.getElementById('toggleIcon');
             
-            const content = {
-                'my-sales': `
-                    <div class="widget-elegant" style="grid-column: span 2;">
-                        <div class="widget-header-elegant">
-                            <div class="widget-title-elegant">
-                                <span>📋</span>
-                                Mis Ventas de Hoy
-                            </div>
-                            <div class="widget-icon-elegant">📋</div>
-                        </div>
-                        <p style="color: #64748b; margin-bottom: 1rem;">Historial de ventas realizadas por ti durante el día.</p>
-                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
-                            <div style="font-weight: 600; color: #1e293b;">Resumen de hoy:</div>
-                            <div style="margin-top: 0.5rem; color: #64748b;">• 5 ventas realizadas</div>
-                            <div style="color: #64748b;">• $245.75 en total</div>
-                            <div style="color: #64748b;">• Promedio: $49.15 por venta</div>
-                        </div>
-                    </div>
-                `
-            };
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
             
-            widgetsGrid.innerHTML = content[section] || `
-                <div class="widget-elegant">
-                    <div class="widget-header-elegant">
-                        <div class="widget-title-elegant">
-                            <span>📄</span>
-                            ${section.charAt(0).toUpperCase() + section.slice(1)}
-                        </div>
-                        <div class="widget-icon-elegant">📄</div>
-                    </div>
-                    <p style="color: #64748b;">Contenido de ${section} en desarrollo...</p>
-                </div>
-            `;
+            if (sidebar.classList.contains('collapsed')) {
+                toggleIcon.textContent = '→';
+            } else {
+                toggleIcon.textContent = '☰';
+            }
+            
+            setTimeout(() => {
+                if (supplyDemandChart) supplyDemandChart.resize();
+                if (distributionChart) distributionChart.resize();
+            }, 350);
         }
 
         function setupEventListeners() {
-            // Botón de menú para móvil
-            if (window.innerWidth <= 768) {
-                addMobileMenuButton();
-            }
+            updateMenuButton();
 
-            // Cerrar sidebar en móvil
             document.addEventListener('click', function(e) {
                 if (window.innerWidth <= 768) {
                     const sidebar = document.getElementById('sidebar');
-                    if (sidebar && !sidebar.contains(e.target) && !e.target.closest('.mobile-menu-btn')) {
+                    const toggleBtn = document.querySelector('.mobile-menu-btn');
+                    const sidebarToggle = document.querySelector('.sidebar-toggle');
+                    
+                    if (sidebar && !sidebar.contains(e.target) && 
+                        !toggleBtn?.contains(e.target) && 
+                        !sidebarToggle?.contains(e.target)) {
                         sidebar.classList.remove('mobile-open');
                     }
                 }
             });
 
             window.addEventListener('resize', function() {
-                if (window.innerWidth <= 768 && !document.querySelector('.mobile-menu-btn')) {
-                    addMobileMenuButton();
-                }
+                updateMenuButton();
+                resetSidebarState();
+                
+                setTimeout(() => {
+                    if (supplyDemandChart) supplyDemandChart.resize();
+                    if (distributionChart) distributionChart.resize();
+                }, 100);
             });
         }
 
+        function updateMenuButton() {
+            const existingMobileBtn = document.querySelector('.mobile-menu-btn');
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            
+            if (window.innerWidth <= 768) {
+                if (sidebarToggle) sidebarToggle.style.display = 'none';
+                if (!existingMobileBtn) {
+                    addMobileMenuButton();
+                }
+            } else {
+                if (sidebarToggle) sidebarToggle.style.display = 'flex';
+                if (existingMobileBtn) {
+                    existingMobileBtn.remove();
+                }
+            }
+        }
+
+        function resetSidebarState() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('collapsed');
+                mainContent.classList.remove('expanded');
+                if (toggleIcon) toggleIcon.textContent = '☰';
+            } else {
+                sidebar.classList.remove('mobile-open');
+                if (toggleIcon && sidebar.classList.contains('collapsed')) {
+                    toggleIcon.textContent = '→';
+                } else if (toggleIcon) {
+                    toggleIcon.textContent = '☰';
+                }
+            }
+            
+            setTimeout(() => {
+                if (supplyDemandChart) {
+                    supplyDemandChart.resize();
+                }
+                if (distributionChart) {
+                    distributionChart.resize();
+                }
+            }, 400);
+        }
+
         function addMobileMenuButton() {
-            const topBar = document.querySelector('.top-bar-elegant');
+            const topBar = document.querySelector('.top-bar-left');
             const existingBtn = document.querySelector('.mobile-menu-btn');
             
             if (!existingBtn && topBar) {
@@ -1085,15 +1263,18 @@
                 menuBtn.innerHTML = '☰';
                 menuBtn.className = 'mobile-menu-btn';
                 menuBtn.style.cssText = `
-                    background: linear-gradient(135deg, #ffb380, #ffd4a6);
+                    background: linear-gradient(135deg, #ff8a65, #ff7043);
                     border: none;
                     color: white;
-                    font-size: 1.3rem;
+                    font-size: 1.2rem;
                     cursor: pointer;
-                    padding: 0.5rem;
+                    padding: 0.6rem;
                     border-radius: 8px;
                     margin-right: 1rem;
                     transition: all 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 `;
                 menuBtn.onclick = toggleMobileSidebar;
                 topBar.insertBefore(menuBtn, topBar.firstChild);
@@ -1103,20 +1284,6 @@
         function toggleMobileSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('mobile-open');
-        }
-
-        function animateWidgets() {
-            const widgets = document.querySelectorAll('.widget-elegant');
-            widgets.forEach((widget, index) => {
-                widget.style.opacity = '0';
-                widget.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    widget.style.transition = 'all 0.5s ease';
-                    widget.style.opacity = '1';
-                    widget.style.transform = 'translateY(0)';
-                }, index * 80);
-            });
         }
 
         function startPeriodicCheck() {
@@ -1153,17 +1320,16 @@
             }
         }
 
-        // Auto-refresh cada 2 minutos solo para el dashboard
         setInterval(() => {
             if (isAuthenticated && !authCheckInProgress) {
                 const currentPage = document.getElementById('currentPage').textContent;
                 if (currentPage === 'Dashboard') {
-                    loadDashboardWidgets().catch(console.error);
+                    loadDashboardData().catch(console.error);
                 }
             }
         }, 120000);
 
-        console.log('✨ Dashboard Elegante inicializado correctamente');
+        console.log('✨ Dashboard Moderno inicializado correctamente');
     </script>
 </body>
 </html>
