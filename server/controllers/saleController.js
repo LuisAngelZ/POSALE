@@ -2,6 +2,7 @@
 const Sale = require('../models/Sale');
 const SaleDetail = require('../models/SaleDetail');
 const Product = require('../models/Product');
+const logger = require('../utils/logger');
 
 class SaleController {
     // Crear nueva venta
@@ -118,7 +119,7 @@ class SaleController {
             });
 
         } catch (error) {
-            console.error('Error creando venta:', error);
+            logger.error(`Error creando venta: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -138,7 +139,7 @@ class SaleController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo ventas:', error);
+            logger.error(`Error obteniendo ventas: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -170,7 +171,7 @@ class SaleController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo venta:', error);
+            logger.error(`Error obteniendo venta: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -195,7 +196,7 @@ class SaleController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo ventas de hoy:', error);
+            logger.error(`Error obteniendo ventas de hoy: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -233,7 +234,7 @@ class SaleController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo ventas por fecha:', error);
+            logger.error(`Error obteniendo ventas por fecha: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -264,7 +265,7 @@ class SaleController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo ventas por usuario:', error);
+            logger.error(`Error obteniendo ventas por usuario: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -297,7 +298,7 @@ class SaleController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo resumen:', error);
+            logger.error(`Error obteniendo resumen: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'

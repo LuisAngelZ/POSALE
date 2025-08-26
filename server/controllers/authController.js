@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const config = require('../config/config');
+const logger = require('../utils/logger');
 
 class AuthController {
     // Iniciar sesión
@@ -57,7 +58,7 @@ class AuthController {
             });
 
         } catch (error) {
-            console.error('Error en login:', error);
+            logger.error(`Error en login: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -105,7 +106,7 @@ class AuthController {
             });
 
         } catch (error) {
-            console.error('Error en registro:', error);
+            logger.error(`Error en registro: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -143,7 +144,7 @@ class AuthController {
             });
 
         } catch (error) {
-            console.error('Error verificando token:', error);
+            logger.error(`Error verificando token: ${error}`);
             res.status(401).json({
                 success: false,
                 message: 'Token inválido'
@@ -179,7 +180,7 @@ class AuthController {
             });
 
         } catch (error) {
-            console.error('Error cambiando contraseña:', error);
+            logger.error(`Error cambiando contraseña: ${error}`);
             
             if (error.message === 'Contraseña actual incorrecta') {
                 return res.status(400).json({
@@ -215,7 +216,7 @@ class AuthController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo perfil:', error);
+            logger.error(`Error obteniendo perfil: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -234,7 +235,7 @@ class AuthController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo usuarios:', error);
+            logger.error(`Error obteniendo usuarios: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'

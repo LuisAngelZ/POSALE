@@ -3,6 +3,7 @@ const Sale = require('../models/Sale');
 const SaleDetail = require('../models/SaleDetail');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const logger = require('../utils/logger');
 
 class ReportController {
     // Reporte de ventas diarias
@@ -62,7 +63,7 @@ class ReportController {
             });
 
         } catch (error) {
-            console.error('Error generando reporte diario:', error);
+            logger.error(`Error generando reporte diario: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -132,7 +133,7 @@ class ReportController {
             });
 
         } catch (error) {
-            console.error('Error generando reporte mensual:', error);
+            logger.error(`Error generando reporte mensual: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -174,7 +175,7 @@ class ReportController {
             });
 
         } catch (error) {
-            console.error('Error generando reporte de productos:', error);
+            logger.error(`Error generando reporte de productos: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -231,7 +232,7 @@ class ReportController {
             });
 
         } catch (error) {
-            console.error('Error generando reporte de usuarios:', error);
+            logger.error(`Error generando reporte de usuarios: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -277,7 +278,7 @@ class ReportController {
             });
 
         } catch (error) {
-            console.error('Error generando dashboard:', error);
+            logger.error(`Error generando dashboard: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'

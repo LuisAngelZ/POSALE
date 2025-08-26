@@ -4,6 +4,7 @@ const path = require('path');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const logger = require('./utils/logger');
 
 const config = require('./config/config');
 require('./config/database');
@@ -55,7 +56,7 @@ app.use('/server', (req, res) => {
 const suspiciousPatterns = [/\.env/, /\.git/, /node_modules/, /package\.json/, /server\//, /\.js$/, /\.sql$/, /\.db$/];
 app.use((req, res, next) => {
   if (suspiciousPatterns.some(p => p.test(req.path))) {
-    console.log(`🚨 ACCESO SOSPECHOSO: ${req.ip} intentó acceder a ${req.path}`);
+    logger.warn(`🚨 ACCESO SOSPECHOSO: ${req.ip} intentó acceder a ${req.path}`);
     return res.status(404).json({ error: 'Archivo no encontrado' });
   }
   next();
@@ -81,7 +82,7 @@ app.use('/api/reports', require('./routes/reports'));
 app.use('/api/printer', require('./routes/printer'));
 
 app.use((err, req, res, next) => {
-  console.error('🚨 Error del servidor:', err.stack);
+  logger.error(`🚨 Error del servidor: ${err.stack}`);
   const isProduction = config.ENVIRONMENT === 'production';
   res.status(500).json({
     error: 'Error interno del servidor',
