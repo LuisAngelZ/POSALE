@@ -2,7 +2,7 @@
 
 ## Setup
 
-1. Copia `.env.example` a `.env` y define los valores necesarios:
+1. Copia `.env.example` a `.env` para establecer las variables de entorno requeridas (`PORT`, `JWT_SECRET`, `JWT_EXPIRES`, `PRINTER_NAME`, `NODE_ENV`) y edítalas según sea necesario:
    ```bash
    cp .env.example .env
    ```
