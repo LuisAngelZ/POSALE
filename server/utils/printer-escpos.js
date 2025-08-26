@@ -1,6 +1,7 @@
 // server/utils/printer-escpos.js - Implementación con ESC/POS
 const escpos = require('escpos');
 const moment = require('moment');
+const logger = require('./logger');
 
 // Configurar adaptador USB
 escpos.USB = require('escpos-usb');
@@ -15,11 +16,11 @@ class POSPrinter {
 
     async initPrinter() {
         try {
-            console.log('🔍 Buscando impresoras USB...');
+            logger.info('🔍 Buscando impresoras USB...');
             
             // Buscar dispositivos USB
             const devices = escpos.USB.findPrinter();
-            console.log('📋 Dispositivos encontrados:', devices.length);
+            logger.info('📋 Dispositivos encontrados:', devices.length);
             
             if (devices.length === 0) {
                 throw new Error('No se encontraron impresoras USB conectadas');
@@ -29,29 +30,29 @@ class POSPrinter {
             this.device = new escpos.USB(devices[0].vendorId, devices[0].productId);
             this.printer = new escpos.Printer(this.device);
             
-            console.log('✅ Impresora detectada:');
-            console.log(`   - Vendor ID: ${devices[0].vendorId}`);
-            console.log(`   - Product ID: ${devices[0].productId}`);
-            console.log(`   - Manufacturer: ${devices[0].manufacturer || 'N/A'}`);
-            console.log(`   - Product: ${devices[0].product || 'N/A'}`);
+            logger.info('✅ Impresora detectada:');
+            logger.info(`   - Vendor ID: ${devices[0].vendorId}`);
+            logger.info(`   - Product ID: ${devices[0].productId}`);
+            logger.info(`   - Manufacturer: ${devices[0].manufacturer || 'N/A'}`);
+            logger.info(`   - Product: ${devices[0].product || 'N/A'}`);
             
             this.isConnected = true;
             
         } catch (error) {
-            console.error('❌ Error inicializando impresora:', error.message);
+            logger.error('❌ Error inicializando impresora:', error.message);
             this.isConnected = false;
             this.suggestSolutions();
         }
     }
 
     suggestSolutions() {
-        console.log('\n🆘 SOLUCIONES RECOMENDADAS:');
-        console.log('1. Verifica que la impresora esté encendida y conectada por USB');
-        console.log('2. Instala drivers oficiales de Epson desde: https://epson.com/support');
-        console.log('3. Verifica que aparezca en "Panel de Control > Dispositivos e impresoras"');
-        console.log('4. Prueba desconectar y reconectar el cable USB');
-        console.log('5. Cambia de puerto USB');
-        console.log('6. Ejecuta este programa como Administrador');
+        logger.info('\n🆘 SOLUCIONES RECOMENDADAS:');
+        logger.info('1. Verifica que la impresora esté encendida y conectada por USB');
+        logger.info('2. Instala drivers oficiales de Epson desde: https://epson.com/support');
+        logger.info('3. Verifica que aparezca en "Panel de Control > Dispositivos e impresoras"');
+        logger.info('4. Prueba desconectar y reconectar el cable USB');
+        logger.info('5. Cambia de puerto USB');
+        logger.info('6. Ejecuta este programa como Administrador');
     }
 
     // Configurar datos de la empresa
@@ -167,7 +168,7 @@ class POSPrinter {
                         .text('')
                         .cut()
                         .close(() => {
-                            console.log('✅ Ticket de prueba impreso correctamente');
+                            logger.info('✅ Ticket de prueba impreso correctamente');
                             resolve({
                                 success: true,
                                 message: 'Ticket de prueba impreso - verifica que salió físicamente'
@@ -284,7 +285,7 @@ class POSPrinter {
                         .text('')
                         .cut()
                         .close(() => {
-                            console.log('✅ Ticket de venta impreso correctamente');
+                            logger.info('✅ Ticket de venta impreso correctamente');
                             resolve({
                                 success: true,
                                 message: 'Ticket impreso correctamente'
@@ -397,7 +398,7 @@ class POSPrinter {
                         .text('')
                         .cut()
                         .close(() => {
-                            console.log('✅ Reporte diario impreso correctamente');
+                            logger.info('✅ Reporte diario impreso correctamente');
                             resolve({
                                 success: true,
                                 message: 'Reporte impreso correctamente'

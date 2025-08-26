@@ -1,5 +1,6 @@
 // server/controllers/categoryController.js
 const Category = require('../models/Category');
+const logger = require('../utils/logger');
 
 class CategoryController {
     // Obtener todas las categorías
@@ -13,7 +14,7 @@ class CategoryController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo categorías:', error);
+            logger.error(`Error obteniendo categorías: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -40,7 +41,7 @@ class CategoryController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo categoría:', error);
+            logger.error(`Error obteniendo categoría: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -81,7 +82,7 @@ class CategoryController {
             });
 
         } catch (error) {
-            console.error('Error creando categoría:', error);
+            logger.error(`Error creando categoría: ${error}`);
             
             // Manejar error de nombre duplicado si existe un constraint único
             if (error.message.includes('UNIQUE constraint failed')) {
@@ -140,7 +141,7 @@ class CategoryController {
             });
 
         } catch (error) {
-            console.error('Error actualizando categoría:', error);
+            logger.error(`Error actualizando categoría: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -180,7 +181,7 @@ class CategoryController {
             });
 
         } catch (error) {
-            console.error('Error eliminando categoría:', error);
+            logger.error(`Error eliminando categoría: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -214,7 +215,7 @@ class CategoryController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo estadísticas:', error);
+            logger.error(`Error obteniendo estadísticas: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'

@@ -1,6 +1,7 @@
 // server/middleware/auth.js
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
+const logger = require('../utils/logger');
 const User = require('../models/User');
 
 // Middleware para verificar token JWT
@@ -39,7 +40,7 @@ const authenticateToken = async (req, res, next) => {
         next();
         
     } catch (error) {
-        console.error('Error en autenticación:', error);
+        logger.error(`Error en autenticación: ${error}`);
         
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({
@@ -136,7 +137,7 @@ const optionalAuth = async (req, res, next) => {
         
     } catch (error) {
         // En autenticación opcional, los errores no detienen la ejecución
-        console.log('Token opcional inválido o expirado');
+        logger.warn('Token opcional inválido o expirado');
         next();
     }
 };

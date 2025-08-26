@@ -1,5 +1,6 @@
 // server/controllers/printController.js - Controlador completo
 const printer = require('../utils/printer');
+const logger = require('../utils/logger');
 const Sale = require('../models/Sale');
 const SaleDetail = require('../models/SaleDetail');
 
@@ -37,7 +38,7 @@ class PrintController {
             });
             
         } catch (error) {
-            console.error('Error imprimiendo ticket:', error);
+            logger.error(`Error imprimiendo ticket: ${error}`);
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -105,7 +106,7 @@ class PrintController {
             });
             
         } catch (error) {
-            console.error('Error imprimiendo reporte:', error);
+            logger.error(`Error imprimiendo reporte: ${error}`);
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -124,7 +125,7 @@ class PrintController {
             });
             
         } catch (error) {
-            console.error('Error en ticket de prueba:', error);
+            logger.error(`Error en ticket de prueba: ${error}`);
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -143,7 +144,7 @@ class PrintController {
             });
             
         } catch (error) {
-            console.error('Error verificando impresora:', error);
+            logger.error(`Error verificando impresora: ${error}`);
             res.status(500).json({
                 success: false,
                 message: error.message,
@@ -178,7 +179,7 @@ class PrintController {
             });
             
         } catch (error) {
-            console.error('Error configurando impresora:', error);
+            logger.error(`Error configurando impresora: ${error}`);
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -216,7 +217,7 @@ class PrintController {
             });
             
         } catch (error) {
-            console.error('Error reimprimiendo ticket:', error);
+            logger.error(`Error reimprimiendo ticket: ${error}`);
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -280,7 +281,7 @@ class PrintController {
             });
             
         } catch (error) {
-            console.error('Error imprimiendo reporte personalizado:', error);
+            logger.error(`Error imprimiendo reporte personalizado: ${error}`);
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -311,7 +312,7 @@ class PrintController {
             });
             
         } catch (error) {
-            console.error('Error obteniendo configuración:', error);
+            logger.error(`Error obteniendo configuración: ${error}`);
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -365,7 +366,7 @@ class PrintController {
             });
             
         } catch (error) {
-            console.error('Error imprimiendo backup:', error);
+            logger.error(`Error imprimiendo backup: ${error}`);
             res.status(500).json({
                 success: false,
                 message: error.message

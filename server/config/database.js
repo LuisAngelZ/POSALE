@@ -1,5 +1,6 @@
 // server/config/database.js - Versión corregida
 const sqlite3 = require('sqlite3').verbose();
+const logger = require('../utils/logger');
 const path = require('path');
 const fs = require('fs');
 
@@ -20,10 +21,10 @@ class Database {
         return new Promise((resolve, reject) => {
             this.db = new sqlite3.Database(this.dbPath, (err) => {
                 if (err) {
-                    console.error('Error conectando a la base de datos:', err);
+                    logger.error(`Error conectando a la base de datos: ${err}`);
                     reject(err);
                 } else {
-                    console.log('Conectado a SQLite database');
+                    logger.info('Conectado a SQLite database');
                     this.initTables().then(() => {
                         this.isInitialized = true;
                         resolve(this.db);
@@ -34,7 +35,7 @@ class Database {
     }
 
     async initTables() {
-        console.log('📋 Creando tablas...');
+        logger.info('📋 Creando tablas...');
         
         // Habilitar foreign keys
         await this.runAsync('PRAGMA foreign_keys = ON');
@@ -46,7 +47,7 @@ class Database {
         await this.createSalesTable();
         await this.createSaleDetailsTable();
         
-        console.log('✅ Todas las tablas creadas correctamente');
+        logger.info('✅ Todas las tablas creadas correctamente');
     }
 
     runAsync(sql, params = []) {
@@ -72,7 +73,7 @@ class Database {
             )
         `;
         await this.runAsync(sql);
-        console.log('✅ Tabla users creada');
+        logger.info('✅ Tabla users creada');
     }
 
     async createCategoriesTable() {
@@ -87,7 +88,7 @@ class Database {
             )
         `;
         await this.runAsync(sql);
-        console.log('✅ Tabla categories creada');
+        logger.info('✅ Tabla categories creada');
     }
 
     async createProductsTable() {
@@ -106,7 +107,7 @@ class Database {
             )
         `;
         await this.runAsync(sql);
-        console.log('✅ Tabla products creada (sin stock)');
+        logger.info('✅ Tabla products creada (sin stock)');
     }
 
     async createSalesTable() {
@@ -128,7 +129,7 @@ class Database {
             )
         `;
         await this.runAsync(sql);
-        console.log('✅ Tabla sales creada');
+        logger.info('✅ Tabla sales creada');
     }
 
     async createSaleDetailsTable() {
@@ -146,7 +147,7 @@ class Database {
             )
         `;
         await this.runAsync(sql);
-        console.log('✅ Tabla sale_details creada');
+        logger.info('✅ Tabla sale_details creada');
     }
 
     getDB() {
@@ -167,8 +168,8 @@ class Database {
         return new Promise((resolve) => {
             if (this.db) {
                 this.db.close((err) => {
-                    if (err) console.error('Error cerrando la base de datos:', err);
-                    else console.log('Base de datos cerrada');
+                    if (err) logger.error(`Error cerrando la base de datos: ${err}`);
+                    else logger.info('Base de datos cerrada');
                     resolve();
                 });
             } else {

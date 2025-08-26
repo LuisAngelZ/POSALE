@@ -1,5 +1,6 @@
 // server/controllers/productController.js
 const Product = require('../models/Product');
+const logger = require('../utils/logger');
 const Category = require('../models/Category');
 
 class ProductController {
@@ -14,7 +15,7 @@ class ProductController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo productos:', error);
+            logger.error(`Error obteniendo productos: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -45,7 +46,7 @@ class ProductController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo productos por categoría:', error);
+            logger.error(`Error obteniendo productos por categoría: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -72,7 +73,7 @@ class ProductController {
             });
 
         } catch (error) {
-            console.error('Error obteniendo producto:', error);
+            logger.error(`Error obteniendo producto: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -134,7 +135,7 @@ class ProductController {
             });
 
         } catch (error) {
-            console.error('Error creando producto:', error);
+            logger.error(`Error creando producto: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -204,7 +205,7 @@ class ProductController {
             });
 
         } catch (error) {
-            console.error('Error actualizando producto:', error);
+            logger.error(`Error actualizando producto: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -234,7 +235,7 @@ class ProductController {
             });
 
         } catch (error) {
-            console.error('Error eliminando producto:', error);
+            logger.error(`Error eliminando producto: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'
@@ -272,7 +273,7 @@ class ProductController {
             });
 
         } catch (error) {
-            console.error('Error en búsqueda de productos:', error);
+            logger.error(`Error en búsqueda de productos: ${error}`);
             res.status(500).json({
                 success: false,
                 message: 'Error interno del servidor'

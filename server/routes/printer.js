@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const printer = require('../utils/printer');
+const logger = require('../utils/logger');
 
 // Importar middleware de autenticación - CORREGIDO
 // Cambiar según tu estructura de archivos:
@@ -18,7 +19,7 @@ try {
         authenticateToken = auth.authenticateToken || auth;
     } catch (error2) {
         // Opción 3: Middleware simple si no existe
-        console.warn('⚠️ Middleware de autenticación no encontrado, usando middleware básico');
+        logger.warn('⚠️ Middleware de autenticación no encontrado, usando middleware básico');
         authenticateToken = (req, res, next) => next(); // Middleware que permite pasar
     }
 }
@@ -32,7 +33,7 @@ router.get('/status', authenticateToken, async (req, res) => {
             printer_status: status
         });
     } catch (error) {
-        console.error('Error verificando estado de impresora:', error);
+        logger.error(`Error verificando estado de impresora: ${error}`);
         res.status(500).json({
             success: false,
             message: error.message
@@ -43,12 +44,12 @@ router.get('/status', authenticateToken, async (req, res) => {
 // Ruta: POST /api/printer/test
 router.post('/test', authenticateToken, async (req, res) => {
     try {
-        console.log('🧪 Iniciando test de impresora...');
+        logger.info('🧪 Iniciando test de impresora...');
         const result = await printer.printTestTicket();
-        console.log('✅ Test de impresora completado');
+        logger.info('✅ Test de impresora completado');
         res.json(result);
     } catch (error) {
-        console.error('❌ Error en test de impresora:', error);
+        logger.error(`❌ Error en test de impresora: ${error}`);
         res.status(500).json({
             success: false,
             message: error.message
@@ -68,12 +69,12 @@ router.post('/print-sale', authenticateToken, async (req, res) => {
             });
         }
 
-        console.log('🖨️ Iniciando impresión automática de venta #', sale_data.id);
+        logger.info(`🖨️ Iniciando impresión automática de venta #${sale_data.id}`);
 
         // Imprimir usando el printer.js modificado
         const result = await printer.printSaleTicket(sale_data);
         
-        console.log('✅ Impresión automática exitosa para venta #', sale_data.id);
+        logger.info(`✅ Impresión automática exitosa para venta #${sale_data.id}`);
         
         res.json({
             success: true,
@@ -82,7 +83,7 @@ router.post('/print-sale', authenticateToken, async (req, res) => {
         });
         
     } catch (error) {
-        console.error('❌ Error en impresión automática:', error);
+        logger.error(`❌ Error en impresión automática: ${error}`);
         res.status(500).json({
             success: false,
             message: `Error en impresión: ${error.message}`
@@ -94,13 +95,13 @@ router.post('/print-sale', authenticateToken, async (req, res) => {
 router.post('/reprint-last', authenticateToken, async (req, res) => {
     try {
         // Por ahora respuesta básica - puedes implementar lógica para última venta
-        console.log('🔄 Solicitud de reimpresión de último ticket');
+        logger.info('🔄 Solicitud de reimpresión de último ticket');
         res.json({
             success: false,
             message: 'Función de reimpresión no implementada aún'
         });
     } catch (error) {
-        console.error('❌ Error en reimpresión:', error);
+        logger.error(`❌ Error en reimpresión: ${error}`);
         res.status(500).json({
             success: false,
             message: error.message
@@ -113,17 +114,17 @@ router.post('/configure', authenticateToken, async (req, res) => {
     try {
         const { printerName, thermalWidth } = req.body;
         
-        console.log('⚙️ Configurando impresora:', { printerName, thermalWidth });
+        logger.info(`⚙️ Configurando impresora: ${JSON.stringify({ printerName, thermalWidth })}`);
         
         const result = await printer.configurePrinter({
             printerName,
             thermalWidth
         });
         
-        console.log('✅ Impresora reconfigurada');
+        logger.info('✅ Impresora reconfigurada');
         res.json(result);
     } catch (error) {
-        console.error('❌ Error configurando impresora:', error);
+        logger.error(`❌ Error configurando impresora: ${error}`);
         res.status(500).json({
             success: false,
             message: error.message

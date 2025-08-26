@@ -3,6 +3,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
+const logger = require('./logger');
 
 class POSPrinter {
     constructor() {
@@ -30,15 +31,15 @@ class POSPrinter {
 
             if (found) {
                 this.isConnected = true;
-                console.log('✅ Impresora EPSON detectada en Windows');
-                console.log(`📋 Usando: ${this.printerName}`);
+                logger.info('✅ Impresora EPSON detectada en Windows');
+                logger.info(`📋 Usando: ${this.printerName}`);
             } else {
-                console.log('⚠️ Impresora EPSON no encontrada en la lista de Windows');
+                logger.info('⚠️ Impresora EPSON no encontrada en la lista de Windows');
                 this.isConnected = false;
             }
             
         } catch (error) {
-            console.error('❌ Error verificando impresoras de Windows:', error.message);
+            logger.error('❌ Error verificando impresoras de Windows:', error.message);
             this.isConnected = false;
         }
     }
@@ -52,7 +53,7 @@ class POSPrinter {
                 .filter(line => line && line !== 'Name')
                 .filter(line => line.length > 0);
         } catch (error) {
-            console.warn('No se pueden obtener impresoras de Windows');
+            logger.warn('No se pueden obtener impresoras de Windows');
             return [];
         }
     }
@@ -186,7 +187,7 @@ FECHA: ${moment().format('DD/MM/YYYY HH:mm:ss')}`;
                 // Guardar con encoding que funciona bien para impresoras térmicas
                 fs.writeFileSync(filePath, content, 'latin1');
 
-                console.log(`🖨️ Enviando ticket a impresora: ${this.printerName}`);
+                logger.info(`🖨️ Enviando ticket a impresora: ${this.printerName}`);
                 
                 // Script PowerShell que funcionaba bien
                 const psScript = `
@@ -269,16 +270,16 @@ try {
                         fs.unlinkSync(filePath);
                         fs.unlinkSync(psFilePath);
                     } catch (e) {
-                        console.warn('No se pudieron eliminar archivos temporales');
+                        logger.warn('No se pudieron eliminar archivos temporales');
                     }
 
                     if (error) {
-                        console.error('❌ Error con PowerShell:', error.message);
+                        logger.error('❌ Error con PowerShell:', error.message);
                         reject(new Error(`Error en PowerShell: ${error.message}`));
                         return;
                     }
 
-                    console.log('✅ Ticket impreso - formato que funcionaba bien pero sin acentos');
+                    logger.info('✅ Ticket impreso - formato que funcionaba bien pero sin acentos');
                     resolve({
                         success: true,
                         message: 'Ticket impreso - versión buena sin acentos',
@@ -331,7 +332,7 @@ try {
             const content = this.createTestTicket();
             const result = await this.printTicket(content, 'test_ticket');
             
-            console.log('✅ Ticket de prueba - versión buena enviado');
+            logger.info('✅ Ticket de prueba - versión buena enviado');
             return {
                 success: true,
                 message: 'Test impreso - versión que funcionaba bien',
@@ -339,7 +340,7 @@ try {
             };
             
         } catch (error) {
-            console.error('❌ Error imprimiendo ticket de prueba:', error);
+            logger.error('❌ Error imprimiendo ticket de prueba:', error);
             throw new Error(`Error en impresión: ${error.message}`);
         }
     }
@@ -353,14 +354,14 @@ try {
             const content = this.createSaleTicket(saleData);
             const result = await this.printTicket(content, `sale_${saleData.id}`);
             
-            console.log('✅ Ticket de venta - versión buena impreso');
+            logger.info('✅ Ticket de venta - versión buena impreso');
             return {
                 success: true,
                 message: 'Ticket impreso - versión que funcionaba bien sin acentos'
             };
             
         } catch (error) {
-            console.error('❌ Error imprimiendo ticket de venta:', error);
+            logger.error('❌ Error imprimiendo ticket de venta:', error);
             throw new Error(`Error en impresión: ${error.message}`);
         }
     }
