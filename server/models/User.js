@@ -108,7 +108,7 @@ class User {
     }
 
     static async verifyPassword(plainPassword, hashedPassword) {
-        return bcrypt.compare(plainPassword, hashedPassword);
+        return await bcrypt.compare(plainPassword, hashedPassword);
     }
 
     static async changePassword(id, oldPassword, newPassword) {

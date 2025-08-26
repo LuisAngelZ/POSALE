@@ -34,6 +34,10 @@ async function testModels() {
             console.log('✅ Usuario admin ya existe:', adminUser.username);
         }
 
+        // Verificar contraseña del usuario admin con bcrypt async
+        const adminPasswordValid = await User.verifyPassword('123456', adminUser.password);
+        console.log('🔐 Verificación contraseña admin:', adminPasswordValid);
+
         // Verificar si el usuario cajero ya existe
         let cajeroUser = await User.findByUsername('cajero');
         
