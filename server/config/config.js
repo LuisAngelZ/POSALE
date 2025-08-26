@@ -1,14 +1,16 @@
 require('dotenv').config();
 
-if (!process.env.JWT_SECRET) {
+const { JWT_SECRET, PORT, JWT_EXPIRES, PRINTER_NAME, NODE_ENV } = process.env;
+
+if (!JWT_SECRET) {
   throw new Error('JWT_SECRET must be set in environment variables');
 }
 
 module.exports = {
-  PORT: process.env.PORT || 3000,
-  JWT_SECRET: process.env.JWT_SECRET,
-  JWT_EXPIRES: process.env.JWT_EXPIRES || '24h',
-  PRINTER_NAME: process.env.PRINTER_NAME || 'EPSON TM-T20III Receipt',
-  ENVIRONMENT: process.env.NODE_ENV || 'development'
+  PORT: PORT || 3000,
+  JWT_SECRET,
+  JWT_EXPIRES: JWT_EXPIRES || '24h',
+  PRINTER_NAME: PRINTER_NAME || 'EPSON TM-T20III Receipt',
+  ENVIRONMENT: NODE_ENV || 'development'
 };
 
