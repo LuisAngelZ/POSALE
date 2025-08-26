@@ -1,7 +1,6 @@
 const app = require('./server/app');
-const config = require('./server/config/config');
 
-const PORT = config.PORT;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor POS iniciado en http://localhost:${PORT}`);
 });
