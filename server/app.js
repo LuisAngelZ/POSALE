@@ -10,7 +10,23 @@ require('./config/database');
 
 const app = express();
 
-app.use(helmet({ contentSecurityPolicy: config.ENVIRONMENT === 'production' ? undefined : false }));
+if (config.ENVIRONMENT === 'production') {
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'"],
+          styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+          imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
+          fontSrc: ["'self'", 'https://fonts.gstatic.com']
+        }
+      }
+    })
+  );
+} else {
+  app.use(helmet({ contentSecurityPolicy: false }));
+}
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
